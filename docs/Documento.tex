@@ -35,9 +35,33 @@
 
 \pagebreak
 
-\section{Introduzione}
-\subsection{Definzione del problema}
+\section{Definizione del problema}
+\subsection{Introduzione}
 
-Qui andrà l'Introduzione.
+Negli ultimi anni, l'ecosostenibilità è diventata una priorità, poiché il mondo, in rapida crescita, deve prestare maggiore attenzione all'ambiente. In questo contesto, l'applicazione web "GreenTrails" si rivolge al settore turistico, con l'obiettivo di facilitare l'organizzazione di viaggi sostenibili, tenendo conto delle sfide che gli utenti affrontano in questo ambito.
+L'obiettivo di "GreenTrails" è permettere agli utenti di pianificare facilmente e rapidamente viaggi ecosostenibili, aiutandoli a individuare mete, strutture e attività adatte. \\\\
+L'applicazione, dunque, mira a:
+\begin{itemize}
+    \item Facilitare la ricerca di strutture eco-friendly;
+    \item Generare automaticamente itinerari in base alle preferenze personali degli utenti;
+    \item Velocizzare il contatto con le strutture selezionate.
+\end{itemize}
+
+
+\subsection{Obiettivi}
+
+GreenTrails prevede, appunto, la \textbf{generazione automatica di itinerari multi-attività in base alle preferenze specificate dall'utente}, attraverso l'utilizzo di un algoritmo di intelligenza artificiale. \\
+Tale algoritmo dovrà rispettare il vincolo di dover generare un percorso valido entro il tempo massimo prestabilito dal sistema (\textbf{2 secondi}, come definito dal System Design Goal \textit{"DG\_12 - Tempo di risposta"}). 
+
+\subsubsection{Ulteriori considerazioni}
+
+Data la mancanza di ulteriori specifiche, che avrebbero potuto maggiormente impostare il problema, si è deciso di supporre dei vincoli aggiuntivi per facilitare la fase di formulazione:
+\begin{itemize}
+	\item Il modulo di intelligenza artificiale non cercherà su tutto il database dell'applicazione, ma soltanto su un subset fornito dal sistema stesso (in altre parole, consideriamo soltanto le attività di una città o in uno specifico range);
+	\item Il percorso dovrà terminare con una e una sola struttura ricettiva;
+	\item Il percorso dovrà contenere almeno due attività turistiche, fino ad un massimo di quattro;
+	\item Le attività del percorso possono essere distanti tra loro al più 5 km;
+	\item Le attività devono corrispondere quanto più possibile alle preferenze utente.
+\end{itemize}
 
 \end{document}
