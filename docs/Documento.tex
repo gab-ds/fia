@@ -55,13 +55,37 @@ Tale algoritmo dovrà rispettare il vincolo di dover generare un percorso valido
 
 \subsubsection{Ulteriori considerazioni}
 
-Data la mancanza di ulteriori specifiche, che avrebbero potuto maggiormente impostare il problema, si è deciso di supporre dei vincoli aggiuntivi per facilitare la fase di formulazione:
+In mancanza di ulteriori specifiche, che avrebbero potuto maggiormente impostare il problema, si è deciso di imporre dei vincoli aggiuntivi per facilitare la fase di formulazione:
 \begin{itemize}
-	\item Il modulo di intelligenza artificiale non cercherà su tutto il database dell'applicazione, ma soltanto su un subset fornito dal sistema stesso (in altre parole, consideriamo soltanto le attività di una città o in uno specifico range);
-	\item Il percorso dovrà terminare con una e una sola struttura ricettiva;
-	\item Il percorso dovrà contenere almeno due attività turistiche, fino ad un massimo di quattro;
-	\item Le attività del percorso possono essere distanti tra loro al più 5 km;
-	\item Le attività devono corrispondere quanto più possibile alle preferenze utente.
+	\item il modulo di intelligenza artificiale non cercherà su tutto il database dell'applicazione, ma soltanto su un subset fornito dal sistema stesso (in altre parole, \textbf{consideriamo soltanto le attività di una città o una specifica area} fornite dal sistema);
+	\item il percorso dovrà \textbf{terminare con una e una sola struttura ricettiva};
+	\item il percorso dovrà \textbf{contenere almeno due attività turistiche, fino ad un massimo di quattro};
+	\item le attività del percorso possono essere \textbf{distanti tra loro al più 5 km}.
 \end{itemize}
+
+\pagebreak
+
+\subsection{Specifica PEAS}
+
+\begin{itemize}
+ \item \textbf{Performance}: la misura di prestazione dell'agente, in questo caso, si basa sulla pertinenza del percorso fornito con le preferenze dell'utente e sulla sua distanza complessiva.
+ \item \textbf{Environment}: l'ambiente di riferimento è l'applicazione web di GreenTrails, la quale comunica direttamente con l'agente.
+ \item \textbf{Actuators}: sono le soluzioni restituite all'applicazione web.
+ \item \textbf{Sensors}: sono i dati in input (ovvero, la lista delle attività disponibili e le preferenze dell'utente) forniti dall'applicazione web.
+\end{itemize}
+
+
+\subsection{Caratteristiche dell'ambiente}
+
+L'ambiente in cui opera l'agente ha le seguenti caratteristiche:
+\begin{itemize}
+ \item è \textbf{completamente osservabile}, in quanto prende in considerazione tutte le possibili attività fornite dal sistema;
+ \item è \textbf{stocastico}, poiché lo stato varia indipendentemente dalle azioni dell'agente;
+ \item è \textbf{episodico}, dal momento che la soluzione scelta dall'agente varia in base alla lista di attività e alle preferenze dell'utente (dunque, ad ogni episodio);
+ \item è \textbf{statico}, in quanto non subisce variazioni mentre l'agente sta valutando le possibili soluzioni;
+ \item è \textbf{discreto}, perché è possibile identificare un numero finito di scelte (tutte le possibili combinazioni di attività e strutture ricettive);
+ \item è \textbf{ad agente singolo}, dato che consente la presenza di un unico agente.
+\end{itemize}
+
 
 \end{document}
