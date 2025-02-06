@@ -12,7 +12,7 @@
 \renewcommand{\headrulewidth}{0pt}
 \fancyhf{}
 \lfoot{\includegraphics[scale=0.05]{logo}
-		C03 - Modulo FIA}
+		C03 - Modulo AI}
 \rfoot{\thepage}
 
 \begin{document}
@@ -85,6 +85,35 @@ L'ambiente in cui opera l'agente ha le seguenti caratteristiche:
  \item è \textbf{statico}, in quanto non subisce variazioni mentre l'agente sta valutando le possibili soluzioni;
  \item è \textbf{discreto}, perché è possibile identificare un numero finito di scelte (tutte le possibili combinazioni di attività e strutture ricettive);
  \item è \textbf{ad agente singolo}, dato che consente la presenza di un unico agente.
+\end{itemize}
+
+\pagebreak
+
+\subsection{Analisi del problema}
+
+Considerando la natura del problema, che è di \textbf{ottimizzazione}, possiamo optare per l'utilizzo di un \textbf{algoritmo genetico}. Tale scelta è condizionata anche dalla \textbf{necessità progettuale} (per il progetto di Ingegneria del Software) di utilizzare un algoritmo genetico per la generazione degli itinerari. \\
+Formalizzando:
+\begin{itemize}
+    \item \textbf{Spazio degli stati}: tutte le possibili permutazioni delle attività, ciascuna con disponibilità maggiore di zero, contenenti almeno due attività turistiche ed esattamente una struttura ricettiva al termine, distanti tra loro al più 5 km; 
+    \item \textbf{Stato iniziale}: percorso vuoto;
+    \item \textbf{Azioni}: aggiungere un'attività turistica (fino ad un massimo di 4), o una struttura ricettiva (se è al termine del percorso);
+    \item \textbf{Modello di transizione}: restituisce un percorso contenente l'attività aggiunta alla fine dello stesso;
+    \item \textbf{Test obiettivo}: il percorso deve contenere attività basate sulle preferenze utente, e deve essere realizzato entro 2 secondi;
+    \item \textbf{Costo di cammino}: distanza dall'attività successiva, in km.
+\end{itemize}
+
+\section{Soluzione del problema}
+\subsection{Tecnologie utilizzate}
+
+Si è scelto di utilizzare Python come linguaggio di programmazione. Le librerie utilizzate, invece, includono FastAPI (per la realizzazione di un'API HTTP semplice).
+
+\subsection{Set di dati utilizzati}
+
+Per ciò che concerne il reperimento dei dati, sono disponibili due opzioni:
+
+\begin{itemize}
+    \item la prima, che consiste nell'\textbf{utilizzo di un dataset pubblicamente disponibile};
+    \item la seconda, che fa uso di un \textbf{Large Language Model} per la generazione di dati artificiali.
 \end{itemize}
 
 
