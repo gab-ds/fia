@@ -50,8 +50,20 @@ L'applicazione, dunque, mira a:
 
 \subsection{Obiettivi}
 
-GreenTrails prevede, appunto, la \textbf{generazione automatica di itinerari multi-attività in base alle preferenze specificate dall'utente}, attraverso l'utilizzo di un algoritmo di intelligenza artificiale. \\
-Tale algoritmo dovrà rispettare il vincolo di dover generare un percorso valido entro il tempo massimo prestabilito dal sistema (\textbf{2 secondi}, come definito dal System Design Goal \textit{"DG\_12 - Tempo di risposta"}). 
+GreenTrails prevede, appunto, la \textbf{generazione automatica di itinerari multi-attività in base alle preferenze specificate dall'utente}, attraverso l'utilizzo di un algoritmo di intelligenza artificiale. Le preferenze sono così composte:
+\begin{itemize}
+    \item \textbf{Località preferita}: una scelta tra \textit{Mare}, \textit{Montagna}, \textit{Città}, oppure \textit{Nessuna preferenza}.
+    \item \textbf{Tipologia di alloggio preferita}: uno tra \textit{Hotel}, \textit{Bed \& Breakfast}, \textit{Villaggio turistico}, \textit{Ostello} oppure \textit{Nessuna preferenza}.
+    \item \textbf{Preferenze alimentari}: \textit{Vegan}, \textit{Vegetarian}, \textit{Gluten-free} o \textit{Nessuna preferenza}.
+    \item \textbf{Tipologia di attività preferita}: una categoria a scelta tra \textit{All'aperto}, \textit{Visite storico-culturali}, \textit{Gastronomia} oppure \textit{Nessuna preferenza}.
+    \item \textbf{Animale domestico}: esprime la preferenza di portare con sé un animale da compagnia, con una semplice scelta tra \textit{Sì} oppure \textit{No}.
+    \item \textbf{Budget}: \textit{Basso}, \textit{Medio}, \textit{Alto} oppure \textit{Flessibile}.
+    \item \textbf{Souvenir locali}: esprime l'interesse nell'acquisto di prodotti artigianali locali, con una semplice scelta tra \textit{Sì} oppure \textit{No}.
+    \item \textbf{Stagione preferita}: \textit{Autunno-inverno}, \textit{Primavera-estate} o \textit{Nessuna preferenza}.
+\end{itemize}
+~\\
+Inoltre, tale algoritmo dovrà rispettare il vincolo di dover generare un percorso valido entro il tempo massimo prestabilito dal sistema (\textbf{2 secondi}, come definito dal System Design Goal \textit{"DG\_12 - Tempo di risposta"}).
+
 
 \subsubsection{Ulteriori considerazioni}
 
@@ -94,7 +106,7 @@ L'ambiente in cui opera l'agente ha le seguenti caratteristiche:
 Considerando la natura del problema, che è di \textbf{ottimizzazione}, possiamo optare per l'utilizzo di un \textbf{algoritmo genetico}. Tale scelta è condizionata anche dalla \textbf{necessità progettuale} (per il progetto di Ingegneria del Software) di utilizzare un algoritmo genetico per la generazione degli itinerari. \\
 Formalizzando:
 \begin{itemize}
-    \item \textbf{Spazio degli stati}: tutte le possibili permutazioni delle attività, ciascuna con disponibilità maggiore di zero, contenenti almeno due attività turistiche ed esattamente una struttura ricettiva al termine, distanti tra loro al più 5 km; 
+    \item \textbf{Spazio degli stati}: tutte le possibili permutazioni delle attività contenenti almeno due attività turistiche ed esattamente una struttura ricettiva al termine, distanti tra loro al più 5 km;
     \item \textbf{Stato iniziale}: percorso vuoto;
     \item \textbf{Azioni}: aggiungere un'attività turistica (fino ad un massimo di 4), o una struttura ricettiva (se è al termine del percorso);
     \item \textbf{Modello di transizione}: restituisce un percorso contenente l'attività aggiunta alla fine dello stesso;
@@ -112,9 +124,26 @@ Si è scelto di utilizzare Python come linguaggio di programmazione. Le librerie
 Per ciò che concerne il reperimento dei dati, sono disponibili due opzioni:
 
 \begin{itemize}
-    \item la prima, che consiste nell'\textbf{utilizzo di un dataset pubblicamente disponibile};
-    \item la seconda, che fa uso di un \textbf{Large Language Model} per la generazione di dati artificiali.
+    \item la prima, che consiste nell'\textbf{utilizzare un dataset pubblicamente disponibile};
+    \item la seconda, che fa uso di un \textbf{Large Language Model per la generazione di dati artificiali}.
 \end{itemize}
 
+Abbiamo optato per la generazione di dati artificiali, in quanto è irrilevante avere dati veritieri in questo contesto: \textbf{il focus del problema è quello di trovare dei percorsi affini in base alle esigenze dell'utente}, ed è perciò non necessario utilizzare informazioni di strutture e utenti reali. \\
+Ci siamo avvalsi di \textit{GPT-3.5} per la generazione dei dataset di visitatori e attività.
+
+\subsubsection{Formattazione dei dati}
+
+\subsection{Specifica dell'algoritmo genetico}
+
+\subsubsection{Codifica degli individui}
+
+La nostra decisione è stata quella di determinare ogni individuo come un array a taglia fissa, di dimensione 5, contenente gli ID numerici delle attività, in cui l'ultimo elemento è sempre una struttura ricettiva. Per rappresentare eventuali percorsi con un numero di attività turistiche inferiori a 4, si è inoltre deciso di utilizzare un valore sentinella al posto dell'ID, con valore 0.
+
+\subsubsection{Inizializzazione}
+\subsubsection{Selezione}
+\subsubsection{Crossover}
+\subsubsection{Mutazione}
+\subsubsection{Funzione di fitness}
+\subsubsection{Stopping condition}
 
 \end{document}
