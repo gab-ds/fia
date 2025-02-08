@@ -140,10 +140,37 @@ Ci siamo avvalsi di \textit{GPT-3.5} per la generazione dei dataset di visitator
 La nostra decisione è stata quella di determinare ogni individuo come un array a taglia fissa, di dimensione 5, contenente gli ID numerici delle attività, in cui l'ultimo elemento è sempre una struttura ricettiva. Per rappresentare eventuali percorsi con un numero di attività turistiche inferiori a 4, si è inoltre deciso di utilizzare un valore sentinella al posto dell'ID, con valore 0.
 
 \subsubsection{Inizializzazione}
+
+Per generare una popolazione iniziale con soluzioni accettabili, si è pensato di utilizzare il seguente algoritmo:
+
+\texttt{1. Separa l'array delle attività in un array di sole strutture ricettive e un array di sole attività turistiche. \\
+2. Costruisci un K-D Tree contenente le coordinate delle sole attività turistiche. \\
+3. Prendi casualmente una struttura ricettiva e rimuovila dall'array. \\
+4. Estrai dal K-D Tree le 4 attività turistiche più vicine alla struttura ricettiva. \\
+5a. Se le prime 2 più vicine non rispettano il vincolo di distanza di 5 km, scarta la struttura ricettiva e torna al punto 3. \\
+5b. Altrimenti, considera le 2 attività turistiche rimanenti: se rispettano il vincolo, allora faranno parte dell'individuo, altrimenti verranno prese in considerazione solo quelle che lo rispettano. \\
+6. Crea un individuo con la struttura ricettiva alla fine, aggiungendo a ritroso le attività in ordine di distanza; quelle non prese in considerazione avranno valore 0. \\
+7. Ritorna al passo 3 finché il numero di individui è minore di n. 
+}
+
+Nell'algoritmo sopra specificato, si consideri \textit{n} la dimensione della popolazione.
+
 \subsubsection{Selezione}
+
+L'algoritmo di selezione considerato è il Roulette Wheel con Elitismo. Esso consiste nel preservare k individui promettenti e avviare una selezione casuale con probabilità per i restanti n-k individui. In questo modo, garantiamo che ogni generazione non sia peggiore della precedente, esponendoci, però, maggiormente al rischio di convergenza prematura.
+
 \subsubsection{Crossover}
+
+La strategia adottata è il Single Point Crossover, dividendo l'array al terzo elemento: in questo modo, avremo che i primi 2 elementi proverranno dal primo genitore, mentre i restanti 3 dal secondo. 
+
 \subsubsection{Mutazione}
+
+L'approccio utilizzato per la mutazione è lo Swap, che consiste nello scambio di due attività (ad eccezione della struttura ricettiva), scegliendo in modo casuale gli indici dell'array, a patto che la soluzione rimanga ammissibile.
+
 \subsubsection{Funzione di fitness}
+
+
+
 \subsubsection{Stopping condition}
 
 \end{document}
