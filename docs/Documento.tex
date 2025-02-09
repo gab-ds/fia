@@ -73,6 +73,7 @@ In mancanza di ulteriori specifiche, che avrebbero potuto maggiormente impostare
 	\item il percorso dovrà \textbf{terminare con una e una sola struttura ricettiva};
 	\item il percorso dovrà \textbf{contenere almeno due attività turistiche, fino ad un massimo di quattro};
 	\item le attività del percorso possono essere \textbf{distanti tra loro al più 5 km}.
+    \item le attività del percorso \textbf{non possono essere ripetute}.
 \end{itemize}
 
 \pagebreak
@@ -153,7 +154,8 @@ Per generare una popolazione iniziale con soluzioni accettabili, si è pensato d
 7. Ritorna al passo 3 finché il numero di individui è minore di n. 
 }
 
-Nell'algoritmo sopra specificato, si consideri \textit{n} la dimensione della popolazione.
+Nell'algoritmo sopra specificato, si consideri \textit{n} la dimensione della popolazione. \\
+Inoltre, tale algoritmo garantisce che gli individui conterranno sempre attività diverse tra loro.
 
 \subsubsection{Selezione}
 
@@ -169,6 +171,7 @@ L'approccio utilizzato per la mutazione è lo Swap, che consiste nello scambio d
 
 \subsubsection{Funzione di fitness}
 
+La funzione di fitness \textit{f(x)} è così definita: \\
 
 
 \subsubsection{Stopping condition}
