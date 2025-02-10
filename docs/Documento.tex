@@ -173,7 +173,22 @@ L'approccio utilizzato per la mutazione è lo Swap, che consiste nello scambio d
 
 La funzione di fitness \textit{f(x)} è così definita: \\
 
+$$f(x) = w_{distanza} * \sum_{i=1}^{n-1} f_{distanza}(x_i, x_{i+1}) + w_{attivita} * \sum_{i=1}^{n} f_{attivita}(x_i)$$
+
+I suoi componenti sono:
+\begin{itemize}
+    \item $w_{distanza}$: il peso della distanza nel fitness totale dell'individuo;
+    \item $f_{distanza}$: il valore di fitness dipendente dalla distanza tra due attività, calcolato sottraendo a 5000 la distanza in metri ($5000 - distanza(x, y)$). Restituisce valore 0 se troppo distanti tra loro;
+    \item $w_{attivita}$: il peso della corrispondenza delle preferenze nel fitness totale;
+    \item $f_{attivita}$: il valore di fitness dipendente dalla corrispondenza tra le preferenze utente e l'attività, dando un valore di reward di 2 per ogni corrispondenza perfetta (o nessuna preferenza espressa). Casi particolari sono la preferenza di stagione (nel caso in cui la struttura non abbia una stagione rilevante, ma l'utente abbia espresso una preferenza, la reward è dimezzata ad 1) e il budget (nel caso in cui non ci sia una corrispondenza perfetta, la reward sarà compresa tra -4 e +4, in base alla differenza tra budget preferito e prezzo effettivo). Restituisce la somma di tutte le reward;
+    \item $n$: è il numero di elementi (nel nostro caso, 5) che compongono ogni individuo.
+\end{itemize}
+~\\
+La funzione di fitness \textbf{restituisce valore 0 nel caso in cui i vincoli non siano rispettati} (due attività troppo distanti, attività ripetute).
+
 
 \subsubsection{Stopping condition}
+
+La condizione di arresto, nel nostro caso, corrisponde al limite massimo di tempo pari a \textbf{2 secondi}.
 
 \end{document}

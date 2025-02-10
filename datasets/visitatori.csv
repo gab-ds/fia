@@ -1,0 +1,201 @@
+ID,Località preferita,Tipologia di alloggio preferita,Preferenze alimentari,Tipologia di attività preferita,Animale domestico,Budget,Souvenir locali,Stagione preferita
+1,Città,Villaggio turistico,Vegetarian,Visite storico-culturali,Sì,Medio,Sì,Primavera-estate
+2,Montagna,Villaggio turistico,Gluten-free,All'aperto,No,Basso,Sì,Primavera-estate
+3,Montagna,Nessuna preferenza,Vegetarian,Visite storico-culturali,Sì,Alto,No,Nessuna preferenza
+4,Nessuna preferenza,Villaggio turistico,Vegan,All'aperto,Sì,Basso,No,Primavera-estate
+5,Nessuna preferenza,Nessuna preferenza,Nessuna preferenza,Nessuna preferenza,Sì,Basso,Sì,Primavera-estate
+6,Città,Nessuna preferenza,Gluten-free,Nessuna preferenza,Sì,Basso,Sì,Autunno-inverno
+7,Mare,Nessuna preferenza,Vegan,Nessuna preferenza,Sì,Medio,No,Autunno-inverno
+8,Città,Ostello,Nessuna preferenza,Visite storico-culturali,Sì,Basso,Sì,Primavera-estate
+9,Mare,Bed & Breakfast,Gluten-free,Gastronomia,No,Flessibile,Sì,Autunno-inverno
+10,Montagna,Nessuna preferenza,Nessuna preferenza,All'aperto,Sì,Basso,No,Nessuna preferenza
+11,Nessuna preferenza,Bed & Breakfast,Vegan,Nessuna preferenza,Sì,Medio,Sì,Primavera-estate
+12,Città,Ostello,Vegetarian,All'aperto,Sì,Medio,No,Nessuna preferenza
+13,Nessuna preferenza,Villaggio turistico,Gluten-free,All'aperto,Sì,Basso,Sì,Autunno-inverno
+14,Montagna,Bed & Breakfast,Vegan,Nessuna preferenza,No,Alto,Sì,Autunno-inverno
+15,Nessuna preferenza,Nessuna preferenza,Vegan,All'aperto,No,Flessibile,No,Autunno-inverno
+16,Città,Ostello,Vegetarian,Gastronomia,No,Alto,Sì,Primavera-estate
+17,Nessuna preferenza,Ostello,Vegan,Nessuna preferenza,No,Medio,No,Nessuna preferenza
+18,Mare,Nessuna preferenza,Vegan,Gastronomia,Sì,Flessibile,No,Primavera-estate
+19,Città,Villaggio turistico,Vegetarian,All'aperto,Sì,Flessibile,No,Primavera-estate
+20,Montagna,Bed & Breakfast,Nessuna preferenza,Visite storico-culturali,No,Flessibile,Sì,Nessuna preferenza
+21,Mare,Hotel,Nessuna preferenza,Nessuna preferenza,No,Alto,Sì,Primavera-estate
+22,Montagna,Villaggio turistico,Vegan,Gastronomia,Sì,Basso,No,Nessuna preferenza
+23,Nessuna preferenza,Villaggio turistico,Nessuna preferenza,Nessuna preferenza,No,Flessibile,Sì,Primavera-estate
+24,Mare,Villaggio turistico,Gluten-free,Nessuna preferenza,Sì,Flessibile,Sì,Primavera-estate
+25,Nessuna preferenza,Villaggio turistico,Vegetarian,Visite storico-culturali,Sì,Medio,No,Primavera-estate
+26,Montagna,Bed & Breakfast,Vegetarian,Visite storico-culturali,Sì,Basso,No,Autunno-inverno
+27,Nessuna preferenza,Bed & Breakfast,Vegetarian,All'aperto,Sì,Medio,Sì,Nessuna preferenza
+28,Mare,Villaggio turistico,Nessuna preferenza,Nessuna preferenza,No,Medio,No,Primavera-estate
+29,Montagna,Ostello,Gluten-free,Visite storico-culturali,No,Flessibile,No,Autunno-inverno
+30,Nessuna preferenza,Nessuna preferenza,Gluten-free,Visite storico-culturali,Sì,Flessibile,No,Nessuna preferenza
+31,Mare,Ostello,Gluten-free,Nessuna preferenza,Sì,Basso,Sì,Nessuna preferenza
+32,Città,Hotel,Gluten-free,Gastronomia,Sì,Basso,No,Autunno-inverno
+33,Montagna,Nessuna preferenza,Vegan,Gastronomia,No,Basso,Sì,Autunno-inverno
+34,Nessuna preferenza,Hotel,Vegan,Nessuna preferenza,No,Alto,No,Autunno-inverno
+35,Montagna,Villaggio turistico,Gluten-free,All'aperto,Sì,Basso,Sì,Primavera-estate
+36,Città,Bed & Breakfast,Vegetarian,Visite storico-culturali,No,Alto,No,Nessuna preferenza
+37,Mare,Hotel,Vegan,Nessuna preferenza,Sì,Alto,No,Nessuna preferenza
+38,Città,Villaggio turistico,Nessuna preferenza,Visite storico-culturali,Sì,Flessibile,Sì,Autunno-inverno
+39,Montagna,Bed & Breakfast,Gluten-free,All'aperto,Sì,Flessibile,Sì,Nessuna preferenza
+40,Mare,Hotel,Vegan,Nessuna preferenza,Sì,Alto,No,Primavera-estate
+41,Nessuna preferenza,Bed & Breakfast,Gluten-free,Nessuna preferenza,Sì,Flessibile,No,Primavera-estate
+42,Città,Bed & Breakfast,Gluten-free,Visite storico-culturali,No,Flessibile,No,Nessuna preferenza
+43,Nessuna preferenza,Villaggio turistico,Vegetarian,Gastronomia,No,Basso,No,Nessuna preferenza
+44,Città,Ostello,Nessuna preferenza,All'aperto,No,Medio,Sì,Autunno-inverno
+45,Città,Bed & Breakfast,Nessuna preferenza,Visite storico-culturali,No,Basso,Sì,Primavera-estate
+46,Montagna,Ostello,Gluten-free,All'aperto,No,Basso,No,Autunno-inverno
+47,Nessuna preferenza,Ostello,Vegetarian,Visite storico-culturali,No,Basso,Sì,Autunno-inverno
+48,Mare,Ostello,Vegan,Nessuna preferenza,Sì,Medio,Sì,Autunno-inverno
+49,Montagna,Hotel,Nessuna preferenza,Nessuna preferenza,Sì,Basso,No,Primavera-estate
+50,Montagna,Ostello,Vegan,Visite storico-culturali,Sì,Alto,No,Autunno-inverno
+51,Città,Bed & Breakfast,Vegan,Visite storico-culturali,No,Flessibile,No,Primavera-estate
+52,Mare,Bed & Breakfast,Vegetarian,Visite storico-culturali,Sì,Alto,No,Primavera-estate
+53,Città,Villaggio turistico,Vegan,All'aperto,No,Medio,Sì,Autunno-inverno
+54,Montagna,Ostello,Nessuna preferenza,Gastronomia,Sì,Medio,Sì,Primavera-estate
+55,Città,Nessuna preferenza,Vegetarian,Visite storico-culturali,Sì,Alto,Sì,Autunno-inverno
+56,Città,Bed & Breakfast,Gluten-free,All'aperto,No,Alto,Sì,Autunno-inverno
+57,Montagna,Nessuna preferenza,Gluten-free,Nessuna preferenza,No,Medio,Sì,Primavera-estate
+58,Mare,Villaggio turistico,Vegan,Gastronomia,Sì,Basso,No,Nessuna preferenza
+59,Nessuna preferenza,Ostello,Vegetarian,All'aperto,Sì,Alto,Sì,Autunno-inverno
+60,Montagna,Bed & Breakfast,Nessuna preferenza,All'aperto,No,Basso,Sì,Nessuna preferenza
+61,Mare,Villaggio turistico,Vegetarian,All'aperto,No,Medio,No,Nessuna preferenza
+62,Nessuna preferenza,Bed & Breakfast,Vegetarian,Gastronomia,Sì,Flessibile,Sì,Nessuna preferenza
+63,Nessuna preferenza,Bed & Breakfast,Gluten-free,Gastronomia,Sì,Basso,No,Primavera-estate
+64,Montagna,Nessuna preferenza,Nessuna preferenza,All'aperto,No,Flessibile,Sì,Primavera-estate
+65,Mare,Ostello,Vegan,Visite storico-culturali,Sì,Flessibile,No,Autunno-inverno
+66,Mare,Ostello,Vegan,Visite storico-culturali,No,Flessibile,Sì,Autunno-inverno
+67,Montagna,Ostello,Vegetarian,Gastronomia,No,Flessibile,No,Autunno-inverno
+68,Città,Nessuna preferenza,Vegetarian,Visite storico-culturali,Sì,Medio,Sì,Autunno-inverno
+69,Mare,Hotel,Vegan,All'aperto,Sì,Alto,Sì,Autunno-inverno
+70,Mare,Bed & Breakfast,Vegetarian,All'aperto,No,Basso,No,Primavera-estate
+71,Montagna,Hotel,Vegetarian,Visite storico-culturali,Sì,Alto,Sì,Autunno-inverno
+72,Mare,Nessuna preferenza,Nessuna preferenza,Gastronomia,No,Alto,Sì,Autunno-inverno
+73,Montagna,Nessuna preferenza,Vegan,All'aperto,Sì,Alto,No,Autunno-inverno
+74,Città,Bed & Breakfast,Nessuna preferenza,Gastronomia,No,Basso,Sì,Primavera-estate
+75,Montagna,Hotel,Nessuna preferenza,All'aperto,No,Alto,Sì,Autunno-inverno
+76,Città,Hotel,Nessuna preferenza,Nessuna preferenza,No,Alto,Sì,Autunno-inverno
+77,Montagna,Hotel,Vegan,Visite storico-culturali,No,Medio,Sì,Autunno-inverno
+78,Montagna,Hotel,Vegan,Nessuna preferenza,No,Medio,Sì,Primavera-estate
+79,Montagna,Ostello,Vegan,Nessuna preferenza,Sì,Medio,Sì,Primavera-estate
+80,Montagna,Nessuna preferenza,Nessuna preferenza,All'aperto,Sì,Medio,No,Primavera-estate
+81,Città,Hotel,Gluten-free,Visite storico-culturali,Sì,Alto,Sì,Primavera-estate
+82,Nessuna preferenza,Nessuna preferenza,Nessuna preferenza,Visite storico-culturali,Sì,Basso,No,Autunno-inverno
+83,Città,Villaggio turistico,Nessuna preferenza,All'aperto,No,Flessibile,No,Autunno-inverno
+84,Nessuna preferenza,Bed & Breakfast,Vegetarian,Gastronomia,No,Medio,Sì,Autunno-inverno
+85,Città,Nessuna preferenza,Vegetarian,Visite storico-culturali,No,Alto,No,Nessuna preferenza
+86,Nessuna preferenza,Hotel,Vegetarian,All'aperto,Sì,Alto,No,Autunno-inverno
+87,Nessuna preferenza,Nessuna preferenza,Vegetarian,Nessuna preferenza,No,Alto,Sì,Autunno-inverno
+88,Città,Nessuna preferenza,Nessuna preferenza,All'aperto,No,Flessibile,No,Primavera-estate
+89,Città,Hotel,Gluten-free,Visite storico-culturali,No,Alto,No,Primavera-estate
+90,Nessuna preferenza,Hotel,Gluten-free,Visite storico-culturali,No,Medio,Sì,Autunno-inverno
+91,Nessuna preferenza,Hotel,Vegetarian,Gastronomia,No,Basso,Sì,Nessuna preferenza
+92,Montagna,Villaggio turistico,Vegan,All'aperto,No,Alto,No,Primavera-estate
+93,Città,Nessuna preferenza,Vegan,Gastronomia,No,Flessibile,Sì,Nessuna preferenza
+94,Città,Villaggio turistico,Vegetarian,Gastronomia,Sì,Basso,No,Autunno-inverno
+95,Nessuna preferenza,Nessuna preferenza,Nessuna preferenza,All'aperto,No,Alto,Sì,Nessuna preferenza
+96,Mare,Villaggio turistico,Vegetarian,All'aperto,Sì,Medio,No,Primavera-estate
+97,Città,Ostello,Vegan,Gastronomia,Sì,Alto,No,Primavera-estate
+98,Nessuna preferenza,Nessuna preferenza,Nessuna preferenza,Visite storico-culturali,No,Flessibile,No,Nessuna preferenza
+99,Montagna,Bed & Breakfast,Gluten-free,Visite storico-culturali,Sì,Flessibile,No,Autunno-inverno
+100,Nessuna preferenza,Bed & Breakfast,Gluten-free,Visite storico-culturali,Sì,Alto,No,Primavera-estate
+101,Mare,Ostello,Nessuna preferenza,All'aperto,Sì,Flessibile,No,Primavera-estate
+102,Nessuna preferenza,Nessuna preferenza,Vegetarian,Nessuna preferenza,Sì,Flessibile,Sì,Primavera-estate
+103,Nessuna preferenza,Nessuna preferenza,Vegan,Gastronomia,No,Basso,Sì,Nessuna preferenza
+104,Montagna,Hotel,Vegan,Nessuna preferenza,Sì,Flessibile,No,Autunno-inverno
+105,Mare,Hotel,Nessuna preferenza,Nessuna preferenza,Sì,Flessibile,Sì,Primavera-estate
+106,Montagna,Villaggio turistico,Nessuna preferenza,All'aperto,Sì,Flessibile,Sì,Autunno-inverno
+107,Mare,Ostello,Vegan,Nessuna preferenza,Sì,Alto,No,Primavera-estate
+108,Città,Bed & Breakfast,Gluten-free,Visite storico-culturali,Sì,Basso,Sì,Nessuna preferenza
+109,Nessuna preferenza,Hotel,Vegan,All'aperto,Sì,Alto,Sì,Primavera-estate
+110,Mare,Villaggio turistico,Vegetarian,Nessuna preferenza,No,Basso,Sì,Nessuna preferenza
+111,Montagna,Nessuna preferenza,Nessuna preferenza,Nessuna preferenza,No,Alto,Sì,Autunno-inverno
+112,Montagna,Bed & Breakfast,Vegetarian,Nessuna preferenza,Sì,Flessibile,No,Autunno-inverno
+113,Montagna,Ostello,Vegan,Nessuna preferenza,No,Alto,No,Autunno-inverno
+114,Montagna,Ostello,Nessuna preferenza,Gastronomia,Sì,Medio,Sì,Primavera-estate
+115,Mare,Nessuna preferenza,Gluten-free,Visite storico-culturali,No,Basso,No,Nessuna preferenza
+116,Nessuna preferenza,Hotel,Vegetarian,Nessuna preferenza,No,Basso,No,Nessuna preferenza
+117,Nessuna preferenza,Nessuna preferenza,Gluten-free,All'aperto,No,Alto,Sì,Nessuna preferenza
+118,Nessuna preferenza,Villaggio turistico,Gluten-free,All'aperto,Sì,Basso,Sì,Primavera-estate
+119,Nessuna preferenza,Hotel,Vegetarian,Nessuna preferenza,Sì,Flessibile,Sì,Autunno-inverno
+120,Città,Villaggio turistico,Vegan,Gastronomia,Sì,Alto,No,Nessuna preferenza
+121,Mare,Villaggio turistico,Vegan,Visite storico-culturali,No,Flessibile,Sì,Nessuna preferenza
+122,Città,Hotel,Nessuna preferenza,All'aperto,No,Basso,No,Primavera-estate
+123,Mare,Bed & Breakfast,Gluten-free,Gastronomia,No,Flessibile,Sì,Autunno-inverno
+124,Montagna,Nessuna preferenza,Vegetarian,All'aperto,Sì,Alto,No,Autunno-inverno
+125,Montagna,Ostello,Vegan,Visite storico-culturali,Sì,Basso,Sì,Primavera-estate
+126,Mare,Nessuna preferenza,Vegetarian,All'aperto,Sì,Basso,No,Primavera-estate
+127,Città,Nessuna preferenza,Gluten-free,All'aperto,Sì,Flessibile,No,Nessuna preferenza
+128,Mare,Villaggio turistico,Gluten-free,Nessuna preferenza,No,Alto,Sì,Nessuna preferenza
+129,Nessuna preferenza,Villaggio turistico,Nessuna preferenza,Gastronomia,No,Basso,No,Nessuna preferenza
+130,Città,Nessuna preferenza,Vegetarian,All'aperto,No,Alto,No,Nessuna preferenza
+131,Mare,Ostello,Vegan,Visite storico-culturali,Sì,Flessibile,No,Primavera-estate
+132,Montagna,Villaggio turistico,Vegetarian,Nessuna preferenza,No,Basso,Sì,Nessuna preferenza
+133,Montagna,Villaggio turistico,Nessuna preferenza,All'aperto,Sì,Alto,No,Autunno-inverno
+134,Nessuna preferenza,Hotel,Vegetarian,Nessuna preferenza,Sì,Medio,No,Autunno-inverno
+135,Montagna,Villaggio turistico,Vegetarian,Nessuna preferenza,No,Alto,Sì,Nessuna preferenza
+136,Montagna,Hotel,Gluten-free,Nessuna preferenza,Sì,Basso,Sì,Autunno-inverno
+137,Nessuna preferenza,Nessuna preferenza,Vegan,Gastronomia,Sì,Medio,No,Primavera-estate
+138,Mare,Ostello,Vegetarian,All'aperto,No,Flessibile,No,Primavera-estate
+139,Montagna,Villaggio turistico,Nessuna preferenza,Nessuna preferenza,No,Basso,Sì,Primavera-estate
+140,Montagna,Villaggio turistico,Vegan,Nessuna preferenza,No,Flessibile,Sì,Primavera-estate
+141,Montagna,Hotel,Vegetarian,All'aperto,Sì,Basso,Sì,Autunno-inverno
+142,Nessuna preferenza,Ostello,Gluten-free,Visite storico-culturali,Sì,Medio,Sì,Autunno-inverno
+143,Città,Ostello,Gluten-free,Nessuna preferenza,Sì,Medio,Sì,Autunno-inverno
+144,Mare,Nessuna preferenza,Nessuna preferenza,Gastronomia,Sì,Basso,Sì,Autunno-inverno
+145,Nessuna preferenza,Villaggio turistico,Gluten-free,Gastronomia,No,Medio,Sì,Nessuna preferenza
+146,Città,Hotel,Nessuna preferenza,Nessuna preferenza,No,Medio,Sì,Nessuna preferenza
+147,Mare,Villaggio turistico,Vegetarian,Gastronomia,Sì,Flessibile,Sì,Primavera-estate
+148,Montagna,Nessuna preferenza,Vegetarian,All'aperto,No,Alto,Sì,Autunno-inverno
+149,Mare,Hotel,Gluten-free,All'aperto,No,Basso,No,Nessuna preferenza
+150,Mare,Villaggio turistico,Gluten-free,Visite storico-culturali,No,Medio,No,Autunno-inverno
+151,Montagna,Bed & Breakfast,Vegan,Visite storico-culturali,Sì,Medio,No,Autunno-inverno
+152,Nessuna preferenza,Ostello,Vegan,Gastronomia,Sì,Alto,Sì,Primavera-estate
+153,Città,Hotel,Vegan,Visite storico-culturali,No,Basso,No,Nessuna preferenza
+154,Mare,Ostello,Vegetarian,All'aperto,Sì,Alto,No,Primavera-estate
+155,Città,Nessuna preferenza,Vegetarian,All'aperto,Sì,Alto,No,Nessuna preferenza
+156,Montagna,Hotel,Gluten-free,Visite storico-culturali,Sì,Flessibile,Sì,Primavera-estate
+157,Mare,Ostello,Vegetarian,Visite storico-culturali,No,Flessibile,No,Nessuna preferenza
+158,Mare,Ostello,Vegan,Visite storico-culturali,Sì,Basso,No,Autunno-inverno
+159,Città,Ostello,Nessuna preferenza,Visite storico-culturali,Sì,Basso,Sì,Nessuna preferenza
+160,Montagna,Hotel,Vegetarian,Visite storico-culturali,Sì,Basso,Sì,Autunno-inverno
+161,Montagna,Bed & Breakfast,Vegetarian,Gastronomia,Sì,Basso,Sì,Autunno-inverno
+162,Città,Nessuna preferenza,Nessuna preferenza,Gastronomia,No,Flessibile,Sì,Autunno-inverno
+163,Montagna,Hotel,Vegan,Gastronomia,No,Alto,Sì,Primavera-estate
+164,Città,Ostello,Vegetarian,Gastronomia,No,Basso,Sì,Autunno-inverno
+165,Mare,Villaggio turistico,Vegetarian,All'aperto,No,Basso,Sì,Nessuna preferenza
+166,Città,Nessuna preferenza,Gluten-free,Visite storico-culturali,Sì,Basso,No,Autunno-inverno
+167,Mare,Ostello,Vegan,Gastronomia,Sì,Basso,Sì,Autunno-inverno
+168,Mare,Hotel,Nessuna preferenza,All'aperto,Sì,Alto,Sì,Autunno-inverno
+169,Mare,Nessuna preferenza,Gluten-free,All'aperto,No,Alto,No,Nessuna preferenza
+170,Città,Hotel,Gluten-free,All'aperto,Sì,Basso,Sì,Autunno-inverno
+171,Montagna,Villaggio turistico,Vegetarian,All'aperto,No,Basso,No,Autunno-inverno
+172,Mare,Bed & Breakfast,Nessuna preferenza,Visite storico-culturali,No,Flessibile,No,Primavera-estate
+173,Città,Bed & Breakfast,Gluten-free,Nessuna preferenza,No,Basso,Sì,Primavera-estate
+174,Montagna,Hotel,Gluten-free,Nessuna preferenza,Sì,Basso,No,Nessuna preferenza
+175,Città,Ostello,Gluten-free,Nessuna preferenza,Sì,Alto,No,Nessuna preferenza
+176,Montagna,Nessuna preferenza,Vegan,All'aperto,No,Flessibile,Sì,Autunno-inverno
+177,Montagna,Bed & Breakfast,Vegetarian,All'aperto,Sì,Alto,No,Primavera-estate
+178,Montagna,Nessuna preferenza,Gluten-free,Gastronomia,No,Medio,Sì,Primavera-estate
+179,Città,Nessuna preferenza,Vegan,Gastronomia,Sì,Basso,Sì,Primavera-estate
+180,Mare,Hotel,Gluten-free,Gastronomia,Sì,Medio,Sì,Autunno-inverno
+181,Montagna,Nessuna preferenza,Gluten-free,Gastronomia,Sì,Alto,No,Autunno-inverno
+182,Città,Bed & Breakfast,Vegan,Gastronomia,No,Basso,No,Autunno-inverno
+183,Città,Nessuna preferenza,Vegetarian,Nessuna preferenza,Sì,Basso,No,Nessuna preferenza
+184,Montagna,Bed & Breakfast,Vegetarian,Visite storico-culturali,No,Flessibile,Sì,Autunno-inverno
+185,Mare,Hotel,Vegan,Visite storico-culturali,No,Alto,No,Nessuna preferenza
+186,Nessuna preferenza,Bed & Breakfast,Vegetarian,Nessuna preferenza,Sì,Flessibile,No,Primavera-estate
+187,Città,Bed & Breakfast,Vegetarian,Gastronomia,No,Medio,Sì,Nessuna preferenza
+188,Montagna,Hotel,Nessuna preferenza,All'aperto,No,Flessibile,No,Primavera-estate
+189,Città,Bed & Breakfast,Vegetarian,All'aperto,No,Alto,Sì,Primavera-estate
+190,Mare,Hotel,Vegan,Gastronomia,No,Alto,Sì,Primavera-estate
+191,Nessuna preferenza,Bed & Breakfast,Nessuna preferenza,All'aperto,No,Alto,Sì,Autunno-inverno
+192,Città,Ostello,Gluten-free,Gastronomia,Sì,Alto,No,Autunno-inverno
+193,Montagna,Ostello,Vegan,All'aperto,No,Basso,Sì,Autunno-inverno
+194,Mare,Bed & Breakfast,Vegetarian,All'aperto,No,Flessibile,No,Primavera-estate
+195,Montagna,Bed & Breakfast,Nessuna preferenza,All'aperto,Sì,Alto,No,Autunno-inverno
+196,Montagna,Bed & Breakfast,Vegan,Nessuna preferenza,Sì,Basso,Sì,Primavera-estate
+197,Mare,Villaggio turistico,Vegetarian,Gastronomia,No,Flessibile,No,Autunno-inverno
+198,Mare,Nessuna preferenza,Vegan,Gastronomia,Sì,Flessibile,Sì,Autunno-inverno
+199,Montagna,Villaggio turistico,Vegetarian,Nessuna preferenza,No,Flessibile,No,Autunno-inverno
+200,Città,Ostello,Vegan,Visite storico-culturali,No,Medio,Sì,Primavera-estate
