@@ -18,7 +18,7 @@ class GeneticAlgorithm:
     __mutation_rate: float
 
     __generation: int = 1
-    __population: list[list[int]] = (0, [])
+    __population: list[list[int]] = []
     __best_population: tuple[int, list[list[int]]] = (0, [])
     __best_individual: tuple[int, list[int]] = (0, [])
 
