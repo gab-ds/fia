@@ -81,7 +81,7 @@ In mancanza di ulteriori specifiche, che avrebbero potuto maggiormente impostare
 \subsection{Specifica PEAS}
 
 \begin{itemize}
- \item \textbf{Performance}: la misura di prestazione dell'agente, in questo caso, si basa sulla pertinenza del percorso fornito con le preferenze dell'utente e sulla sua distanza complessiva.
+ \item \textbf{Performance}: la misura di prestazione dell'agente, in questo caso, si basa sulla pertinenza del percorso fornito con le preferenze dell'utente e sulla sua distanza massima tra le attività.
  \item \textbf{Environment}: l'ambiente di riferimento è l'applicazione web di GreenTrails, la quale comunica direttamente con l'agente.
  \item \textbf{Actuators}: sono le soluzioni restituite all'applicazione web.
  \item \textbf{Sensors}: sono i dati in input (ovvero, la lista delle attività disponibili e le preferenze dell'utente) forniti dall'applicazione web.
@@ -132,7 +132,11 @@ Per ciò che concerne il reperimento dei dati, sono disponibili due opzioni:
 Abbiamo optato per la generazione di dati artificiali, in quanto è irrilevante avere dati veritieri in questo contesto: \textbf{il focus del problema è quello di trovare dei percorsi affini in base alle esigenze dell'utente}, ed è perciò non necessario utilizzare informazioni di strutture e utenti reali. \\
 Ci siamo avvalsi di \textit{GPT-3.5} per la generazione dei dataset di visitatori e attività.
 
+Abbiamo optato per la generazione casuale di dati
+
 \subsubsection{Formattazione dei dati}
+
+
 
 \subsection{Specifica dell'algoritmo genetico}
 
@@ -159,7 +163,10 @@ Inoltre, tale algoritmo garantisce che gli individui conterranno sempre attivit�
 
 \subsubsection{Selezione}
 
-L'algoritmo di selezione considerato è il Roulette Wheel con Elitismo. Esso consiste nel preservare k individui promettenti e avviare una selezione casuale con probabilità per i restanti n-k individui. In questo modo, garantiamo che ogni generazione non sia peggiore della precedente, esponendoci, però, maggiormente al rischio di convergenza prematura.
+L'algoritmo di selezione considerato è il Roulette Wheel con Elitismo. Esso consiste nel preservare k individui promettenti e avviare una selezione casuale con probabilità per i restanti n-k individui. In questo modo, garantiamo che ogni generazione non sia peggiore della precedente, esponendoci, però, maggiormente al rischio di convergenza prematura. Inoltre, non appena prendiamo i due individui dell'elite, riduciamo la loro fitness del 20\%, per garantire un tasso di vantaggio anche per gli altri individui durante le prossime selezioni.
+Di seguito la descrizione del procedimento.
+
+\texttt{1.}
 
 \subsubsection{Crossover}
 
@@ -190,5 +197,20 @@ La funzione di fitness \textbf{restituisce valore 0 nel caso in cui i vincoli no
 \subsubsection{Stopping condition}
 
 La condizione di arresto, nel nostro caso, corrisponde al limite massimo di tempo pari a \textbf{2 secondi}.
+
+\subsection{Conclusione}
+\subsubsection{Risultati}
+\subsubsection{Considerazioni finali}
+
+\subsection{Glossario}
+
+\begin{itemize}
+   \item \textbf{Problema di ottimizzazione}: problema il cui obiettivo è quello di ricercare il miglior valore possibile per una funzione obiettivo, soggetta a vincoli.
+   \item \textbf{Algoritmo genetico}: problema di ottimizzazione che simula il processo evolutivo al fine di trovare soluzioni ottimali a problemi complessi.I suoi individui, ovvero la popolazione iniziale, attraverso operazioni di selezione, incrocio e mutazione, genereranno individui evoluti, che saranno sempre più vicini alla soluzione ottima.
+   \item \textbf{Python}: linguaggio di programmazione ad alto livello, che si presta ad un semplice utilizzo per via della vicinanza al linguaggio naturale.
+   \item \textbf{Large Language Model}: modello di deep learning, addestrato su grandi quantitativi di dati testuali, con l'obiettivo di apprendere e generare linguaggio naturale.
+   \item \textbf{K-D Tree}: struttura dati gerarchica, utilizzata per organizzare punti in uno spazio dimensionale. Ad ogni livello, l'albero divide lo spazio in k dimensioni, alternando queste ultime ad un livello dell'albero. Sono applicate in contesti di organizzazione e ricerca di dati multidimensionali.
+   \item \textbf{Funzione di fitness}: funzione di valutazione dei dati o di adattamento della soluzione candidata al problema in via di risoluzione. Essa assegna un punteggio ad ogni individuo della popolazione scelta, in base al livello di soddisfazione dell'obiettivo. Infatti, più alto è il punteggio di fitness di una soluzione, maggiore è la probabilità che essa venga selezionata e utilizzata per generare nuove soluzioni che si avvicineranno sempre di più alla soluzione ottimale.
+\end{itemize}
 
 \end{document}
