@@ -1,0 +1,4 @@
+numpy==2.2.2
+PyCristoforo==2.0.0
+shapely==2.0.7
+requests==2.32.3

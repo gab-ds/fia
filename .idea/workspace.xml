@@ -4,19 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="544eb722-4199-4886-805e-2f9a1206a5b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/GreenTrailsFIA.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/CSUniSchoolLabReport.cls" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Documento.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/images/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_main.http" afterDir="false" />
+    <list default="true" id="544eb722-4199-4886-805e-2f9a1206a5b4" name="Changes" comment="fix: sistemata errata inizializzazione della proprietà population">
+      <change afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/greentrails/activities.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/greentrails/options.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/mock_system.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/attivita.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/attivita.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/visitatori.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/visitatori.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/greentrails/ga.py" beforeDir="false" afterPath="$PROJECT_DIR$/greentrails/ga.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/greentrails/prefs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/gen_activities.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/gen_activities.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_main.http" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +29,25 @@
       <list>
         <option value="FastAPI main" />
         <option value="FastAPI test_main" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;gab-ds&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/gab-ds/fia&quot;,
+    &quot;accountId&quot;: &quot;14fa7b83-8bd2-4100-8b71-3b8938df115f&quot;
+  }
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -47,25 +61,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "FastAPI.GreenTrailsFIA.executor": "Run",
-    "HTTP Request.test_main | #1.executor": "Run",
-    "HTTP Request.test_main | #2.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/sys-001/PycharmProjects/GreenTrailsFIA/docs/images",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;FastAPI.GreenTrailsFIA.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.test_main | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.test_main | #2.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sys-001/PycharmProjects/GreenTrailsFIA/datasets/attivita.csv&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/home/sys-001/PycharmProjects/GreenTrailsFIA/datasets/attivita.csv&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs/images" />
@@ -104,8 +120,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
-        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-PY-243.24978.54" />
+        <option value="bundled-python-sdk-91e3b7efe1d4-466328ff949b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.24978.54" />
       </set>
     </attachedChunks>
   </component>
@@ -123,13 +139,101 @@
       <workItem from="1737797253412" duration="1799000" />
       <workItem from="1737801580801" duration="104000" />
       <workItem from="1737801704358" duration="1100000" />
+      <workItem from="1738593766110" duration="989000" />
+      <workItem from="1738679075471" duration="1444000" />
+      <workItem from="1738922614719" duration="2601000" />
+      <workItem from="1738961991524" duration="1848000" />
+      <workItem from="1739007836785" duration="1210000" />
+      <workItem from="1739119388983" duration="12115000" />
+      <workItem from="1739141480648" duration="221000" />
+      <workItem from="1739176287907" duration="4596000" />
+      <workItem from="1739227828265" duration="334000" />
+      <workItem from="1739264805182" duration="13162000" />
+      <workItem from="1739280690777" duration="8478000" />
+      <workItem from="1739367267696" duration="4080000" />
+      <workItem from="1739440136859" duration="14982000" />
+      <workItem from="1739533849070" duration="5179000" />
+      <workItem from="1739629255414" duration="291000" />
+      <workItem from="1739874078307" duration="11600000" />
+      <workItem from="1739957379798" duration="12763000" />
+      <workItem from="1740040378217" duration="6639000" />
+      <workItem from="1740064317983" duration="2249000" />
     </task>
+    <task id="LOCAL-00001" summary="feat(docs): aggiunte specifica PEAS e caratteristiche ambiente">
+      <option name="closed" value="true" />
+      <created>1738685817538</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1738685817538</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat(docs): aggiunta specifica preferenze e stesura preliminare specifica GA, rivisto spazio stati">
+      <option name="closed" value="true" />
+      <created>1738967079582</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1738967079582</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: aggiunta funzione di fitness">
+      <option name="closed" value="true" />
+      <created>1739141589952</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739141589952</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: aggiunta libreria per il calcolo della distanza tra coordinate geografiche">
+      <option name="closed" value="true" />
+      <created>1739141679498</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739141679498</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: implementate meccaniche di evoluzione ed esecuzione">
+      <option name="closed" value="true" />
+      <created>1739271420695</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1739271420695</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix: sistemata errata inizializzazione della proprietà population">
+      <option name="closed" value="true" />
+      <created>1739271500022</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1739271500023</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat(docs): aggiunte specifica PEAS e caratteristiche ambiente" />
+    <MESSAGE value="feat(docs): aggiunta specifica preferenze e stesura preliminare specifica GA, rivisto spazio stati" />
+    <MESSAGE value="feat: aggiunta funzione di fitness" />
+    <MESSAGE value="feat: aggiunta libreria per il calcolo della distanza tra coordinate geografiche" />
+    <MESSAGE value="feat: implementate meccaniche di evoluzione ed esecuzione" />
+    <MESSAGE value="fix: sistemata errata inizializzazione della proprietà population" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: sistemata errata inizializzazione della proprietà population" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/GreenTrailsFIA$GreenTrailsFIA.coverage" NAME="GreenTrailsFIA Coverage Results" MODIFIED="1737801613019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/GreenTrailsFIA$GreenTrailsFIA.coverage" NAME="GreenTrailsFIA Coverage Results" MODIFIED="1740066307736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

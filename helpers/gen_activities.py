@@ -1,7 +1,8 @@
 import csv
 import random
-import pycristoforo as pyc
 from sys import argv
+
+import pycristoforo as pyc
 
 # Definizione delle possibili valori per le colonne
 localita = ["Mare", "Montagna", "Città"]
@@ -13,12 +14,10 @@ animali_ammessi = ["Sì", "No"]
 souvenir_locali = ["Sì", "No"]
 stagione_rilevante = ["Autunno-inverno", "Primavera-estate", "Nessuna informazione"]
 
+
 # Funzione per generare una riga del dataset
-def generate_row(latitude, longitude, id):
-    row = []
-    row.append(id)
-    row.append(latitude)
-    row.append(longitude)
+def generate_row(latitude, longitude, activity_id):
+    row = [activity_id, latitude, longitude]
 
     # Genera i valori delle colonne opzionali
     is_alloggio_value = random.choice(is_alloggio)
@@ -30,25 +29,26 @@ def generate_row(latitude, longitude, id):
     row.append(random.choice(animali_ammessi))
     row.append(random.choice(stagione_rilevante))
     row.append(random.choice(souvenir_locali))
-    row.append(random.choice(stagione_rilevante))
+    row.append(random.choice(localita))
     return row
 
 
 num_activities = int(argv[1]) if len(argv) > 1 else 10
-id = 1
+i = 1
 dataset = []
 country = pyc.get_shape("Italy")
 points = pyc.geoloc_generation(country, num_activities, "Italy")
 
 for point in points:
     lon, lat = point['geometry']['coordinates']
-    dataset.append(generate_row(lat, lon, id))
-    id += 1
+    dataset.append(generate_row(lat, lon, i))
+    i += 1
 
 # Salva il dataset in un file CSV
 with open("../datasets/attivita.csv", "w", newline="") as csvfile:
     writer = csv.writer(csvfile)
-    writer.writerow(["ID", "Latitudine", "Longitudine", "Alloggio", "Tipologia", "Prezzo", "Cibo", "Animali ammessi", "Stagione rilevante", "Souvenir locali", "Località"])
+    writer.writerow(["ID", "Latitudine", "Longitudine", "Alloggio", "Tipologia", "Prezzo", "Cibo", "Animali ammessi",
+                     "Stagione rilevante", "Souvenir locali", "Località"])
     writer.writerows(dataset)
 
 print("CSV generato: attivita.csv")
