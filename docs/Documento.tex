@@ -2,8 +2,11 @@
 
 \usepackage[italian]{babel}
 \usepackage{fancyhdr}
-\graphicspath{ {./images/} }
+\usepackage{xcolor,colortbl}
 
+\graphicspath{ {./images/} }
+\definecolor{lightgreen}{rgb}{0.75, 0.95, 0.75}
+\definecolor{green}{rgb}{0.5, 0.85, 0.5}
 
 \title{GreenTrails - Modulo AI}
 \author{\textsc{Roberta Galluzzo}, \textsc{Gabriele Di Stefano}}
@@ -12,7 +15,7 @@
 \renewcommand{\headrulewidth}{0pt}
 \fancyhf{}
 \lfoot{\includegraphics[scale=0.05]{logo}
-		C03 - Modulo AI}
+		GreenTrails - Modulo AI}
 \rfoot{\thepage}
 
 \begin{document}
@@ -72,7 +75,7 @@ In mancanza di ulteriori specifiche, che avrebbero potuto maggiormente impostare
 	\item il modulo di intelligenza artificiale non cercherà su tutto il database dell'applicazione, ma soltanto su un subset fornito dal sistema stesso (in altre parole, \textbf{consideriamo soltanto le attività di una città o una specifica area} fornite dal sistema);
 	\item il percorso dovrà \textbf{terminare con una e una sola struttura ricettiva};
 	\item il percorso dovrà \textbf{contenere almeno due attività turistiche, fino ad un massimo di quattro};
-	\item le attività del percorso possono essere \textbf{distanti tra loro al più 5 km}.
+	\item le attività del percorso devono essere \textbf{inscrivibili in una circonferenza di raggio 5 km}.
     \item le attività del percorso \textbf{non possono essere ripetute}.
 \end{itemize}
 
@@ -107,7 +110,7 @@ L'ambiente in cui opera l'agente ha le seguenti caratteristiche:
 Considerando la natura del problema, che è di \textbf{ottimizzazione}, possiamo optare per l'utilizzo di un \textbf{algoritmo genetico}. Tale scelta è condizionata anche dalla \textbf{necessità progettuale} (per il progetto di Ingegneria del Software) di utilizzare un algoritmo genetico per la generazione degli itinerari. \\
 Formalizzando:
 \begin{itemize}
-    \item \textbf{Spazio degli stati}: tutte le possibili permutazioni delle attività contenenti almeno due attività turistiche ed esattamente una struttura ricettiva al termine, distanti tra loro al più 5 km;
+    \item \textbf{Spazio degli stati}: tutte le possibili permutazioni delle attività contenenti almeno due attività turistiche ed esattamente una struttura ricettiva al termine, racchiuse in una circonferenza di raggio 5 km;
     \item \textbf{Stato iniziale}: percorso vuoto;
     \item \textbf{Azioni}: aggiungere un'attività turistica (fino ad un massimo di 4), o una struttura ricettiva (se è al termine del percorso);
     \item \textbf{Modello di transizione}: restituisce un percorso contenente l'attività aggiunta alla fine dello stesso;
@@ -115,29 +118,79 @@ Formalizzando:
     \item \textbf{Costo di cammino}: distanza dall'attività successiva, in km.
 \end{itemize}
 
+\pagebreak{}
 \section{Soluzione del problema}
-\subsection{Tecnologie utilizzate}
-
-Si è scelto di utilizzare Python come linguaggio di programmazione. Le librerie utilizzate, invece, includono FastAPI (per la realizzazione di un'API HTTP semplice).
-
 \subsection{Set di dati utilizzati}
 
 Per ciò che concerne il reperimento dei dati, sono disponibili due opzioni:
 
 \begin{itemize}
     \item la prima, che consiste nell'\textbf{utilizzare un dataset pubblicamente disponibile};
-    \item la seconda, che fa uso di un \textbf{Large Language Model per la generazione di dati artificiali}.
+    \item la seconda, che consiste nella \textbf{generazione di dati artificiali}.
 \end{itemize}
 
 Abbiamo optato per la generazione di dati artificiali, in quanto è irrilevante avere dati veritieri in questo contesto: \textbf{il focus del problema è quello di trovare dei percorsi affini in base alle esigenze dell'utente}, ed è perciò non necessario utilizzare informazioni di strutture e utenti reali. \\
-Ci siamo avvalsi di \textit{GPT-3.5} per la generazione dei dataset di visitatori e attività.
-
-Abbiamo optato per la generazione casuale di dati
+Ci siamo avvalsi di \textit{due script aggiuntivi} per la generazione casuale dei dataset di visitatori e attività.
 
 \subsubsection{Formattazione dei dati}
 
+I dati sono stati organizzati in file con formato CSV, in modo da renderli facilmente leggibili e interpretabili sia da un software, sia da una persona che li esamini manualmente.
 
+Ecco la composizione del set di dati dei visitatori, con una riga di esempio: \\
 
+\begin{center}
+\begin{tabular}{|c|c|} \hline\rowcolor{lightgreen}
+\textbf{ID}                              & 1                        \\\rowcolor{green}
+\textbf{Località preferita}              & Città                    \\\rowcolor{lightgreen}
+\textbf{Tipologia di alloggio preferita} & Villaggio turistico      \\\rowcolor{green}
+\textbf{Preferenze alimentari}           & Vegetarian               \\\rowcolor{lightgreen}
+\textbf{Tipologia di attività preferita} & Visite storico-culturali \\\rowcolor{green}
+\textbf{Animali domestici}               & Sì                       \\\rowcolor{lightgreen}
+\textbf{Budget}                          & Medio                    \\\rowcolor{green}
+\textbf{Souvenir locali}                 & Sì                       \\\rowcolor{lightgreen}
+\textbf{Stagione preferita}              & Primavera-estate         \\\hline
+\end{tabular}
+\end{center}
+
+Ecco la composizione del set di dati delle attività, con una riga di esempio: \\
+
+\begin{center}
+\begin{tabular}{|c|c|} \hline\rowcolor{lightgreen}
+\textbf{ID}                 & 1                    \\\rowcolor{green}
+\textbf{Latitudine}         & 45.66591297292027    \\\rowcolor{lightgreen}
+\textbf{Longitudine}        & 10.475487956720567   \\\rowcolor{green}
+\textbf{Alloggio}           & Sì                   \\\rowcolor{lightgreen}
+\textbf{Tipologia}          & Villaggio turistico  \\\rowcolor{green}
+\textbf{Prezzo}             & 478                  \\\rowcolor{lightgreen}
+\textbf{Cibo}               & Vegan                \\\rowcolor{green}
+\textbf{Animali domestici}  & Sì                   \\\rowcolor{lightgreen}
+\textbf{Stagione rilevante} & Nessuna informazione \\\rowcolor{green}
+\textbf{Souvenir locali}    & Sì                   \\\rowcolor{lightgreen}
+\textbf{Località}           & Montagna			   \\\hline
+\end{tabular}
+\end{center}
+
+\subsection{Tecnologie utilizzate}
+
+Come linguaggio di programmazione, si è scelto di utilizzare \textbf{Python 3}.
+Le librerie utilizzate, invece, sono molteplici; di seguito, quelle utilizzate dal programma agente:
+
+\begin{itemize}
+	\item \textbf{FastAPI}, per la realizzazione di un'API HTTP attraverso cui interagire con il sistema;
+	\item \textbf{GeoPy}, per il corretto calcolo delle distanze geografiche;
+	\item \textbf{SciPy}, per poter raggruppare i punti in un KD-Tree;
+	\item \textbf{NumPy}, per velocizzare i calcoli, piuttosto che utilizzare le funzioni built-in di Python.
+\end{itemize}
+
+$ $\\
+Ulteriori librerie utilizzate, che non fanno direttamente parte dell'agente, sono:
+\begin{itemize}
+	\item \textbf{PyCristoforo}, utilizzato per la corretta generazione di coordinate casuali in Italia, da utilizzare nel set di dati delle attività;
+	\item \textbf{Requests}, utilizzato per lo script di mock del sistema che dovrà interagire con l'endpoint HTTP esposto dall'agente;
+	\item \textbf{Pandas}, utilizzato per lo script di mock del sistema per caricare i dati dai rispettivi dataset di attività e visitatori.
+\end{itemize}
+
+\pagebreak{}
 \subsection{Specifica dell'algoritmo genetico}
 
 \subsubsection{Codifica degli individui}
@@ -149,46 +202,57 @@ La nostra decisione è stata quella di determinare ogni individuo come un array 
 Per generare una popolazione iniziale con soluzioni accettabili, si è pensato di utilizzare il seguente algoritmo:
 
 \texttt{1. Separa l'array delle attività in un array di sole strutture ricettive e un array di sole attività turistiche. \\
-2. Costruisci un K-D Tree contenente le coordinate delle sole attività turistiche. \\
-3. Prendi casualmente una struttura ricettiva e rimuovila dall'array. \\
-4. Estrai dal K-D Tree le 4 attività turistiche più vicine alla struttura ricettiva. \\
-5a. Se le prime 2 più vicine non rispettano il vincolo di distanza di 5 km, scarta la struttura ricettiva e torna al punto 3. \\
-5b. Altrimenti, considera le 2 attività turistiche rimanenti: se rispettano il vincolo, allora faranno parte dell'individuo, altrimenti verranno prese in considerazione solo quelle che lo rispettano. \\
-6. Crea un individuo con la struttura ricettiva alla fine, aggiungendo a ritroso le attività in ordine di distanza; quelle non prese in considerazione avranno valore 0. \\
-7. Ritorna al passo 3 finché il numero di individui è minore di n. 
+2. Costruisci due K-D Tree, uno contenente le coordinate delle sole attività turistiche, l'altro delle sole strutture ricettive. \\
+3. Prendi casualmente una struttura ricettiva. \\
+4. Estrai dal K-D Tree delle attività turistiche al massimo 20 attività più vicine alla struttura ricettiva. \\
+5. Scarta le attività turistiche che distano più di 5 km dalla struttura ricettiva, lasciando soltanto quelle ammissibili per l'individuo. \\
+6a. Se il numero di attività turistiche ammissibili è inferiore a 2, scarta la struttura ricettiva e torna al punto 3. \\
+6b. Altrimenti, mescola casualmente l'array delle attività turistiche ammissibili, selezionandone al più 4 da inserire nell'individuo (ricordiamo che, in questo caso, avremo sicuramente almeno 2 attività turistiche nell'array). \\
+7. Crea un individuo, inserendo come ultimo elemento la struttura ricettiva scelta, e inserendo a ritroso le attività selezionate (in questo modo, le posizioni vuote saranno sempre le prime due, il che è ammissibile) \\
+8. Ritorna al passo 3 finché il numero di individui è minore di n. 
 }
 
-Nell'algoritmo sopra specificato, si consideri \textit{n} la dimensione della popolazione. \\
-Inoltre, tale algoritmo garantisce che gli individui conterranno sempre attività diverse tra loro.
+Nell'algoritmo sopra specificato, si consideri $n$ la dimensione della popolazione.
 
+\pagebreak{}
 \subsubsection{Selezione}
 
-L'algoritmo di selezione considerato è il Roulette Wheel con Elitismo. Esso consiste nel preservare k individui promettenti e avviare una selezione casuale con probabilità per i restanti n-k individui. In questo modo, garantiamo che ogni generazione non sia peggiore della precedente, esponendoci, però, maggiormente al rischio di convergenza prematura. Inoltre, non appena prendiamo i due individui dell'elite, riduciamo la loro fitness del 20\%, per garantire un tasso di vantaggio anche per gli altri individui durante le prossime selezioni.
-Di seguito la descrizione del procedimento.
+L'algoritmo di selezione considerato è il Roulette Wheel con Elitismo. Esso consiste nel preservare $k$ individui promettenti e avviare una selezione casuale con probabilità per i restanti $n-k$ individui.
 
-\texttt{1.}
+In questo modo, garantiamo che ogni generazione non sia peggiore della precedente, esponendoci, però, maggiormente al rischio di convergenza prematura: una mitigazione messa in atto è quella di ridurre il valore di fitness dei due elementi dell'élite del 20\%, per garantire una possibilità maggiore anche per gli altri individui durante le prossime selezioni. Di seguito, la descrizione del procedimento.
+\\\\~
+\texttt{1. Calcola il valore di fitness di ogni individuo della popolazione. \\
+2. Seleziona i primi $k$ individui con valore di fitness maggiore e copiali nella nuova generazione. \\
+3. Riduci il valore di fitness calcolato dei due individui scelti del 20\%. \\
+4. Calcola il valore complessivo di fitness per l'intera generazione. \\
+5. Calcola le probabilità per ogni individuo applicando la seguente formula: $$\frac{fitness_{individuo}}{fitness_{totale}}$$
+6. Avvia una selezione casuale dei restanti $n-k$ individui della nuova generazione, utilizzando le probabilità calcolate per ogni individuo.
+}
 
 \subsubsection{Crossover}
 
-La strategia adottata è il Single Point Crossover, dividendo l'array al terzo elemento: in questo modo, avremo che i primi 2 elementi proverranno dal primo genitore, mentre i restanti 3 dal secondo. 
+La strategia adottata è il Single Point Crossover, dividendo l'array al terzo elemento: in questo modo, avremo che i primi 2 elementi proverranno dal primo genitore, mentre i restanti 3 dal secondo. Per evitare individui non ammissibili, calcoliamo il fitness dei due figli ottenuti: se questo valore, per almeno uno dei due, è pari a zero, allora il crossover non si effettua.
+
 
 \subsubsection{Mutazione}
 
-L'approccio utilizzato per la mutazione è lo Swap, che consiste nello scambio di due attività (ad eccezione della struttura ricettiva), scegliendo in modo casuale gli indici dell'array, a patto che la soluzione rimanga ammissibile.
+L'approccio utilizzato per la mutazione è il Random Resetting, che consiste nella selezione di un gene in modo casuale e la sua conseguente sostituzione con un altro gene, a patto che questo dia vita a un individuo ammissibile.
 
+\pagebreak{}
 \subsubsection{Funzione di fitness}
 
 La funzione di fitness \textit{f(x)} è così definita: \\
 
-$$f(x) = w_{distanza} * \sum_{i=1}^{n-1} f_{distanza}(x_i, x_{i+1}) + w_{attivita} * \sum_{i=1}^{n} f_{attivita}(x_i)$$
+$$f(x) = w_{distanza} * f_{distanza}(x_4, punto\_medio(x)) + w_{attivita} * \sum_{i=1}^{m} f_{attivita}(x_i)$$
 
 I suoi componenti sono:
 \begin{itemize}
     \item $w_{distanza}$: il peso della distanza nel fitness totale dell'individuo;
-    \item $f_{distanza}$: il valore di fitness dipendente dalla distanza tra due attività, calcolato sottraendo a 5000 la distanza in metri ($5000 - distanza(x, y)$). Restituisce valore 0 se troppo distanti tra loro;
+    \item $f_{distanza}$: il valore di fitness dipendente dalla distanza tra due punti, calcolato sottraendo a 5000 la distanza in metri ($5000 - distanza(x, y)$) e troncando il risultato ad un intero. Restituisce valore 0 se troppo distanti tra loro;
+    \item $punto\_medio(x)$: il valore medio delle coordinate per le attività contenute nell'individuo $x$. Seppur impreciso, per punti così vicini l'approssimazione può considerarsi trascurabile;
     \item $w_{attivita}$: il peso della corrispondenza delle preferenze nel fitness totale;
     \item $f_{attivita}$: il valore di fitness dipendente dalla corrispondenza tra le preferenze utente e l'attività, dando un valore di reward di 2 per ogni corrispondenza perfetta (o nessuna preferenza espressa). Casi particolari sono la preferenza di stagione (nel caso in cui la struttura non abbia una stagione rilevante, ma l'utente abbia espresso una preferenza, la reward è dimezzata ad 1) e il budget (nel caso in cui non ci sia una corrispondenza perfetta, la reward sarà compresa tra -4 e +4, in base alla differenza tra budget preferito e prezzo effettivo). Restituisce la somma di tutte le reward;
-    \item $n$: è il numero di elementi (nel nostro caso, 5) che compongono ogni individuo.
+    \item $m$: è il numero di elementi (nel nostro caso, 5) che compongono ogni individuo.
 \end{itemize}
 ~\\
 La funzione di fitness \textbf{restituisce valore 0 nel caso in cui i vincoli non siano rispettati} (due attività troppo distanti, attività ripetute).
@@ -197,19 +261,23 @@ La funzione di fitness \textbf{restituisce valore 0 nel caso in cui i vincoli no
 \subsubsection{Stopping condition}
 
 La condizione di arresto, nel nostro caso, corrisponde al limite massimo di tempo pari a \textbf{2 secondi}.
+Inoltre, si è scelta come ulteriore condizione di arresto \textbf{la mancanza di miglioramenti per almeno 20 generazioni}.
 
-\subsection{Conclusione}
-\subsubsection{Risultati}
-\subsubsection{Considerazioni finali}
+\pagebreak{}
 
-\subsection{Glossario}
+\section{Conclusione}
+\subsection{Risultati}
+\subsection{Considerazioni finali}
+
+\pagebreak{}
+\section{Glossario}
 
 \begin{itemize}
    \item \textbf{Problema di ottimizzazione}: problema il cui obiettivo è quello di ricercare il miglior valore possibile per una funzione obiettivo, soggetta a vincoli.
    \item \textbf{Algoritmo genetico}: problema di ottimizzazione che simula il processo evolutivo al fine di trovare soluzioni ottimali a problemi complessi.I suoi individui, ovvero la popolazione iniziale, attraverso operazioni di selezione, incrocio e mutazione, genereranno individui evoluti, che saranno sempre più vicini alla soluzione ottima.
    \item \textbf{Python}: linguaggio di programmazione ad alto livello, che si presta ad un semplice utilizzo per via della vicinanza al linguaggio naturale.
    \item \textbf{Large Language Model}: modello di deep learning, addestrato su grandi quantitativi di dati testuali, con l'obiettivo di apprendere e generare linguaggio naturale.
-   \item \textbf{K-D Tree}: struttura dati gerarchica, utilizzata per organizzare punti in uno spazio dimensionale. Ad ogni livello, l'albero divide lo spazio in k dimensioni, alternando queste ultime ad un livello dell'albero. Sono applicate in contesti di organizzazione e ricerca di dati multidimensionali.
+   \item \textbf{K-D Tree}: struttura dati gerarchica per organizzare punti in uno spazio k-dimensionale euclideo. A ogni livello dell'albero, lo spazio viene suddiviso alternando sistematicamente le $k$ dimensioni. Questi alberi sono utilizzati per l'organizzazione e la ricerca di dati multidimensionali. Sebbene le coordinate geografiche non rappresentino uno spazio euclideo, per distanze relativamente brevi sulla superficie terrestre gli effetti della curvatura possono essere trascurati, approssimando sufficientemente bene le distanze calcolate con le coordinate geografiche a quelle di uno spazio euclideo bidimensionale.
    \item \textbf{Funzione di fitness}: funzione di valutazione dei dati o di adattamento della soluzione candidata al problema in via di risoluzione. Essa assegna un punteggio ad ogni individuo della popolazione scelta, in base al livello di soddisfazione dell'obiettivo. Infatti, più alto è il punteggio di fitness di una soluzione, maggiore è la probabilità che essa venga selezionata e utilizzata per generare nuove soluzioni che si avvicineranno sempre di più alla soluzione ottimale.
 \end{itemize}
 
