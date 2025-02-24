@@ -206,15 +206,8 @@ class GeneticAlgorithm:
 
         individual[4] = accomodation.id
         neighbors = self.find_acceptable_neighbors(accomodation)
-        # neighbors = self.find_neighbors(accomodation, 10)
 
         acceptable_neighbors = neighbors.copy()
-        """acceptable_neighbors = []
-        for neighbor in neighbors:
-            if accomodation.distance_from(neighbor) > self.max_distance:
-                break
-            if neighbor not in acceptable_neighbors:
-                acceptable_neighbors.append(neighbor)"""
 
         # Se la struttura ricettiva non ha abbastanza attività vicine in un raggio di 5 km, allora scartala dalla lista di candidati
         if len(acceptable_neighbors) < 2:
