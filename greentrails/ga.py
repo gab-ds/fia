@@ -176,6 +176,8 @@ class GeneticAlgorithm:
                 activity = self.__accomodations[activity_id]
                 accomodation = activity
             else:
+                if activity_id in self.__accomodations:
+                    return 0
                 activity = self.__tourist_activities[activity_id]
 
             total_fitness += self.fitness_activity(activity)
