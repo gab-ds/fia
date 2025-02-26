@@ -3,7 +3,9 @@
 \usepackage[italian]{babel}
 \usepackage{fancyhdr}
 \usepackage{xcolor,colortbl}
+\usepackage[hidelinks]{hyperref}
 
+\hypersetup{linktoc=all}
 \graphicspath{ {./images/} }
 \definecolor{lightgreen}{rgb}{0.75, 0.95, 0.75}
 \definecolor{green}{rgb}{0.5, 0.85, 0.5}
@@ -255,7 +257,7 @@ I suoi componenti sono:
     \item $m$: è il numero di elementi (nel nostro caso, 5) che compongono ogni individuo.
 \end{itemize}
 ~\\
-La funzione di fitness \textbf{restituisce valore 0 nel caso in cui i vincoli non siano rispettati} (due attività troppo distanti, attività ripetute).
+La funzione di fitness \textbf{restituisce valore 0 nel caso in cui i vincoli non siano rispettati} (attività troppo distanti o ripetute, permutazioni non accettabili).
 
 
 \subsubsection{Stopping condition}
