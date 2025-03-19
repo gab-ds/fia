@@ -77,7 +77,7 @@ In mancanza di ulteriori specifiche, che avrebbero potuto maggiormente impostare
 	\item il modulo di intelligenza artificiale non cercherà su tutto il database dell'applicazione, ma soltanto su un subset fornito dal sistema stesso (in altre parole, \textbf{consideriamo soltanto le attività di una città o una specifica area} fornite dal sistema);
 	\item il percorso dovrà \textbf{terminare con una e una sola struttura ricettiva};
 	\item il percorso dovrà \textbf{contenere almeno due attività turistiche, fino ad un massimo di quattro};
-	\item le attività del percorso devono essere \textbf{inscrivibili in una circonferenza di raggio 5 km}.
+	\item il percorso deve avere una \textbf{lunghezza massima di 5 km}.
     \item le attività del percorso \textbf{non possono essere ripetute}.
 \end{itemize}
 
@@ -112,7 +112,7 @@ L'ambiente in cui opera l'agente ha le seguenti caratteristiche:
 Considerando la natura del problema, che è di \textbf{ottimizzazione}, possiamo optare per l'utilizzo di un \textbf{algoritmo genetico}. Tale scelta è condizionata anche dalla \textbf{necessità progettuale} (per il progetto di Ingegneria del Software) di utilizzare un algoritmo genetico per la generazione degli itinerari. \\
 Formalizzando:
 \begin{itemize}
-    \item \textbf{Spazio degli stati}: tutte le possibili permutazioni delle attività contenenti almeno due attività turistiche ed esattamente una struttura ricettiva al termine, racchiuse in una circonferenza di raggio 5 km;
+    \item \textbf{Spazio degli stati}: tutte le possibili permutazioni delle attività contenenti almeno due attività turistiche ed esattamente una struttura ricettiva al termine, con distanza massima complessiva di 5 km;
     \item \textbf{Stato iniziale}: percorso vuoto;
     \item \textbf{Azioni}: aggiungere un'attività turistica (fino ad un massimo di 4), o una struttura ricettiva (se è al termine del percorso);
     \item \textbf{Modello di transizione}: restituisce un percorso contenente l'attività aggiunta alla fine dello stesso;

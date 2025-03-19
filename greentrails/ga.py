@@ -23,6 +23,7 @@ class GeneticAlgorithm:
     __best_population: tuple[int, list[list[int]]] = (0, [])
     __best_individual: tuple[int, list[int]] = (0, [])
 
+    __activities: dict[int, Activity] = {}
     __tourist_activities: dict[int, Activity] = {}
     __accomodations: dict[int, Activity] = {}
 
@@ -47,6 +48,7 @@ class GeneticAlgorithm:
         self.crossover_rate = crossover_rate
         self.mutation_rate = mutation_rate
         for activity in activities:
+            self.__activities.update({activity.id: activity})
             target_dict = self.__tourist_activities
             target_map = self.__ta_map
             target_points = self.__ta_points
@@ -65,6 +67,29 @@ class GeneticAlgorithm:
         self.__accomodations_tree = KDTree(self.__accomodations_points)
         self.__preferences = preferences
 
+    def __distance_ids(self, a: int, b: int) -> float:
+        if a not in self.__activities or b not in self.__activities:
+            raise ValueError("Attività non presenti")
+        activity_a = self.__activities[a]
+        activity_b = self.__activities[b]
+        return activity_a.distance_from(activity_b)
+
+    def fitness_distance(self, individual: list[int]):
+        total_distance = 0
+        for idx, i in enumerate(individual):
+            if i == 0:
+                if idx > 1:
+                    return 0
+                continue
+            next_idx = i + 1
+            if next_idx not in individual:
+                break
+
+            total_distance += int(self.__distance_ids(i, individual[next_idx]))
+            if total_distance > self.max_distance:
+                return 0
+        return self.max_distance - total_distance
+
     def find_neighbors(self, activity: Activity, n: int, accomodations: bool = False) -> list[Activity]:
         target_dict = self.__tourist_activities
         target_map = self.__ta_map
@@ -76,7 +101,7 @@ class GeneticAlgorithm:
         _, indices = target_tree.query([activity.latitude, activity.longitude], n)
         result = []
         for i in indices:
-            # In questo caso, vuol dire che il numero di punti totali è minore del numero di punti richiesti
+            # In questo caso, vuol dire che il numero di punti presenti nel K-D Tree è minore del numero di punti richiesti
             if i == len(target_map):
                 break
             index = target_map[i]
@@ -146,20 +171,19 @@ class GeneticAlgorithm:
         if len(individual) != 5:  # Rifiutiamo tutti gli individui di dimensione diversa da 5
             raise ValueError('L\'individuo non è di dimensione 5')
 
-        total_fitness = 0
-        avg_lat, avg_lon = 0, 0
+        activity_fitness = 0
         activity_ids = []
         last_activity_id = None
         accomodation = None
-        for activity_id in reversed(individual):
-            # Se l'ID corrente è 0, continuiamo con la prossima iterazione
+
+        for idx, activity_id in enumerate(individual):
             if activity_id == 0:
+                # Scartiamo tutti gli individui con valori non-nulli prima dei valori nulli (es. [1 0 2 3 4])
+                # Inoltre, scartiamo tutti gli individui con valori nulli dopo la seconda posizione (es. [0 0 0 1 2])
+                if idx > 1 or last_activity_id is not None and last_activity_id != 0:
+                    return 0
                 last_activity_id = 0
                 continue
-
-            # Scartiamo tutti gli individui con valori non-nulli prima dei valori nulli (es. [1 0 2 3 4])
-            if last_activity_id == 0:
-                return 0
 
             last_activity_id = activity_id
 
@@ -168,61 +192,56 @@ class GeneticAlgorithm:
                 return 0
             activity_ids.append(activity_id)
 
-            if accomodation is None:
-                # Dovrebbe essere impossibile avere individui con l'ultima attività che non è una struttura ricettiva
-                # Ma non si sa mai, meglio controllare
-                if activity_id not in self.__accomodations:
+            if activity_id not in self.__activities:
+                raise ValueError(f"Individuo con attività non valide: {activity_id}")
+
+            activity = self.__activities[activity_id]
+
+            if activity.is_accomodation:
+                # Scartiamo tutti gli individui con una struttura ricettiva in posizione non finale
+                if idx < len(individual) - 1:
                     return 0
-                activity = self.__accomodations[activity_id]
                 accomodation = activity
-            else:
-                if activity_id in self.__accomodations:
-                    return 0
-                activity = self.__tourist_activities[activity_id]
+            activity_fitness += self.fitness_activity(activity)
 
-            total_fitness += self.fitness_activity(activity)
-
-            avg_lat += activity.latitude
-            avg_lon += activity.longitude
-
-        # Scartiamo tutti gli individui con meno di 3 attività nel percorso (es. [0 0 0 3 4])
-        if len(activity_ids) < 3:
+        # Dovrebbe essere impossibile avere individui con l'ultima attività che non è una struttura ricettiva
+        # Ma non si sa mai, meglio controllare
+        if accomodation is None:
             return 0
 
-        avg_lat /= len(activity_ids)
-        avg_lon /= len(activity_ids)
-
-        # Calcoliamo il fitness tra un'attività e il punto medio calcolato tra tutte le attività non nulle
-        distance_fitness = int(self.max_distance - accomodation.distance_from_coords(avg_lat, avg_lon))
-
-        # Scartiamo tutti gli individui con attività troppo distanti tra loro (non incluse in un raggio di MAX_DISTANCE km)
+        distance_fitness = self.fitness_distance(individual)
         if distance_fitness <= 0:
             return 0
-
-        total_fitness += distance_fitness
-        return total_fitness
+        return activity_fitness + distance_fitness
 
     def __generate_individual(self) -> list[int] | None:
         individual = [0, 0, 0, 0, 0]
-        accomodation = random.choice(list(self.__accomodations.values()))
+        accomodation: Activity = random.choice(list(self.__accomodations.values()))
 
         individual[4] = accomodation.id
-        neighbors = self.find_acceptable_neighbors(accomodation)
 
-        acceptable_neighbors = neighbors.copy()
-
-        # Se la struttura ricettiva non ha abbastanza attività vicine in un raggio di 5 km, allora scartala dalla lista di candidati
-        if len(acceptable_neighbors) < 2:
-            self.__accomodations.pop(accomodation.id)
-            return None
-
-        numpy.random.shuffle(acceptable_neighbors)
-        for i in range(4):
-            if len(acceptable_neighbors) == 0:
-                break
-            selected_neighbor = acceptable_neighbors.pop(0)
-            individual[3 - i] = selected_neighbor.id
-
+        total_distance = 0
+        curr = accomodation
+        i = 0
+        while i <= 3:
+            neighbors = self.find_neighbors(curr, 5)
+            neighbor = None
+            for n in neighbors:
+                if n.id not in individual:
+                    neighbor = n
+                    break
+            if neighbor is None:
+                if i >= 2:
+                    break
+                return None
+            total_distance += int(curr.distance_from(neighbor))
+            if total_distance > self.max_distance:
+                if i >= 2:
+                    break
+                return None
+            curr = neighbor
+            individual[3 - i] = neighbor.id
+            i += 1
         return individual
 
     def init_population(self) -> list[list[int]]:
