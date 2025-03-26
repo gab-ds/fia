@@ -1,7 +1,10 @@
 import random
 import time
+from collections import Counter
+from functools import cache
 
 import numpy
+from matplotlib import pyplot
 from scipy.spatial import KDTree
 
 from .activities import Activity
@@ -12,6 +15,7 @@ class GeneticAlgorithm:
     population_size: int
     activity_weight: int
     distance_weight: int
+    completeness_weight: int
     max_distance: int
     elite_size: int
     crossover_rate: float
@@ -20,8 +24,8 @@ class GeneticAlgorithm:
     __last_best_generation: int
     __generation: int = 1
     __population: list[list[int]] = []
-    __best_population: tuple[int, list[list[int]]] = (0, [])
-    __best_individual: tuple[int, list[int]] = (0, [])
+    __best_population: tuple[list[list[int]], int] = ([], 0)
+    __best_individual: tuple[list[int], int, int, float] = ([], 0, 1, 0)
 
     __activities: dict[int, Activity] = {}
     __tourist_activities: dict[int, Activity] = {}
@@ -38,11 +42,13 @@ class GeneticAlgorithm:
     __preferences: Options
 
     def __init__(self, activities: list[Activity], preferences: Options, population_size: int = 10,
-                 activity_weight: int = 200, distance_weight: int = 1, elite_size: int = 2, max_distance: int = 5000,
+                 activity_weight: int = 200, distance_weight: int = 1, completeness_weight: int = 1000,
+                 elite_size: int = 2, max_distance: int = 5000,
                  crossover_rate: float = 0.5, mutation_rate: float = 0.1):
         self.population_size = population_size
         self.activity_weight = activity_weight
         self.distance_weight = distance_weight
+        self.completeness_weight = completeness_weight
         self.max_distance = max_distance
         self.elite_size = elite_size
         self.crossover_rate = crossover_rate
@@ -74,15 +80,15 @@ class GeneticAlgorithm:
         activity_b = self.__activities[b]
         return activity_a.distance_from(activity_b)
 
-    def fitness_distance(self, individual: list[int]):
+    def fitness_distance(self, individual: tuple[int]):
         total_distance = 0
         for idx, i in enumerate(individual):
             if i == 0:
                 if idx > 1:
                     return 0
                 continue
-            next_idx = i + 1
-            if next_idx not in individual:
+            next_idx = idx + 1
+            if next_idx > len(individual) - 1:
                 break
 
             total_distance += int(self.__distance_ids(i, individual[next_idx]))
@@ -167,9 +173,8 @@ class GeneticAlgorithm:
 
         return total * self.activity_weight
 
-    def fitness_function(self, individual: list[int]):
-        if len(individual) != 5:  # Rifiutiamo tutti gli individui di dimensione diversa da 5
-            raise ValueError('L\'individuo non è di dimensione 5')
+    @cache
+    def fitness_function(self, individual: tuple[int]):
 
         activity_fitness = 0
         activity_ids = []
@@ -212,7 +217,11 @@ class GeneticAlgorithm:
         distance_fitness = self.fitness_distance(individual)
         if distance_fitness <= 0:
             return 0
-        return activity_fitness + distance_fitness
+        completeness_fitness = (2 - (5 - len(activity_ids))) * self.completeness_weight
+        total_fitness = activity_fitness + distance_fitness + completeness_fitness
+        if total_fitness <= 0:
+            return 0
+        return total_fitness
 
     def __generate_individual(self) -> list[int] | None:
         individual = [0, 0, 0, 0, 0]
@@ -233,11 +242,13 @@ class GeneticAlgorithm:
             if neighbor is None:
                 if i >= 2:
                     break
+                self.__accomodations.pop(accomodation.id)
                 return None
             total_distance += int(curr.distance_from(neighbor))
             if total_distance > self.max_distance:
                 if i >= 2:
                     break
+                self.__accomodations.pop(accomodation.id)
                 return None
             curr = neighbor
             individual[3 - i] = neighbor.id
@@ -255,17 +266,23 @@ class GeneticAlgorithm:
 
     def selection(self, population: list[list[int]]) -> list[list[int]]:
         new_population = []
-        fitness = [(individual, self.fitness_function(individual)) for individual in population]
+        fitness = [(individual, self.fitness_function(tuple(individual))) for individual in population]
         fitness.sort(key=lambda x: x[1], reverse=True)
 
         new_population.extend([x[0] for x in fitness[:self.elite_size]])
 
-        # riduciamo le chance di vincita nella roulette wheel degli elementi appartenenti all'élite
+        # riduciamo del 20% le chance di vincita nella roulette wheel degli elementi appartenenti all'élite
         for i in range(self.elite_size):
             fitness[i] = (fitness[i][0], fitness[i][1] * 0.8)
 
         total_fitness = sum(j for i, j in fitness)
         probabilities = [f[1] / total_fitness for f in fitness]
+        for f in fitness:
+            if f[1] < 0:
+                print(f)
+                print(population)
+                print(fitness)
+                raise ValueError("COME CAZZO È POSSIBILE?")
         selected_indices = numpy.random.choice(len(fitness), size=len(fitness) - len(new_population), p=probabilities)
         selected = [fitness[i][0] for i in selected_indices]
         new_population.extend(selected)
@@ -288,9 +305,13 @@ class GeneticAlgorithm:
             inserted = False
             # Se è più alto della probabilità di crossover, per quest'individuo la riproduzione non avviene
             if numpy.random.random() < self.crossover_rate:
-                for parent_b in p:
+                pool = []
+                for i in p:
+                    if i != parent_a:
+                        pool.append(i)
+                for parent_b in pool:
                     child_a, child_b = self.__crossover_individuals(parent_a, parent_b)
-                    if self.fitness_function(child_a) > 0 and self.fitness_function(child_b) > 0:
+                    if self.fitness_function(tuple(child_a)) > 0 and self.fitness_function(tuple(child_b)) > 0:
                         new_population.append(child_a)
                         new_population.append(child_b)
                         p.remove(parent_b)
@@ -301,68 +322,133 @@ class GeneticAlgorithm:
 
         return new_population
 
-    def mutate(self, population: [list[list[int]]]) -> list[list[int]]:
+    def scramble(self, individual: list[int]) -> list[int]:
+        start = 0
+        end = 3
+        for idx, i in enumerate(individual):
+            if i == 0:
+                continue
+            start = idx
+            break
+
+        new_individual = individual[:start]
+        subset = individual[start:end + 1]
+        numpy.random.shuffle(subset)
+        new_individual.extend(subset)
+        new_individual.extend(individual[end + 1:])
+        return new_individual
+
+    def random_reset(self, individual: list[int]) -> list[int]:
+        random_index = numpy.random.choice(len(individual))
+        # Si pensi alla casistica in cui viene selezionato il primo elemento, ma l'individuo ha codifica [0 0 1 2 3]
+        # Chiaramente, in questo caso preferiamo selezionare un altro elemento
+        # In questo modo, dovremmo evitare codifiche non valide (es. [7 0 1 2 3])
+        if random_index == 0 and individual[random_index + 1] == 0:
+            random_index += 1
+        #while random_index == 0 and individual[random_index + 1] == 0:
+        #    random_index = numpy.random.choice(len(individual))
+        is_accomodation = random_index + 1 == len(individual)
+        target_dict = self.__accomodations if is_accomodation else self.__tourist_activities
+        activity_id = individual[random_index]
+        if activity_id == 0:
+            activity_id = individual[random_index + 1]
+        activity = target_dict[activity_id]
+        neighbors = self.find_acceptable_neighbors(activity, is_accomodation)
+        numpy.random.shuffle(neighbors)
+        new_individual = individual.copy()
+        for neighbor in neighbors:
+            if neighbor.id in new_individual:
+                continue
+            tmp = individual.copy()
+            tmp[random_index] = neighbor.id
+            fitness = self.fitness_function(tuple(tmp))
+            if fitness <= 0:
+                continue
+            new_individual = tmp
+            break
+        return new_individual.copy()
+
+    def mutate(self, population: list[list[int]]) -> list[list[int]]:
         new_population = population.copy()
         for i, individual in enumerate(new_population):
             if numpy.random.random() < self.mutation_rate:
-                random_index = numpy.random.choice(len(individual))
-                # Si pensi alla casistica in cui viene selezionato il primo elemento, ma l'individuo ha codifica [0 0 1 2 3]
-                # Chiaramente, in questo caso preferiamo selezionare un altro elemento
-                # In questo modo, dovremmo evitare codifiche non valide (es. [7 0 1 2 3])
-                while random_index + 1 < len(individual) and individual[random_index + 1] == 0:
-                    random_index = numpy.random.choice(len(individual))
-                is_accomodation = random_index + 1 == len(individual)
-                target_dict = self.__accomodations if is_accomodation else self.__tourist_activities
-                activity = target_dict[individual[random_index]] if individual[random_index] != 0 else target_dict[
-                    individual[random_index + 1]]
-                neighbors = self.find_acceptable_neighbors(activity, is_accomodation)
-                numpy.random.shuffle(neighbors)
-                for neighbor in neighbors:
-                    if neighbor.id in individual:
-                        continue
-                    tmp = individual.copy()
-                    tmp[random_index] = neighbor.id
-                    if self.fitness_function(tmp) <= 0:
-                        continue
-                    new_population[i] = tmp.copy()
+                new_individual = self.random_reset(individual)
+                new_individual = self.scramble(new_individual)
+                fitness = self.fitness_function(tuple(new_individual))
+                if fitness > 0:
+                    new_population[i] = new_individual
 
         return new_population
 
-    def evolve(self, population: [list[list[int]]]) -> list[list[int]]:
+    def evolve(self, population: list[list[int]]) -> list[list[int]]:
         new_population = population.copy()
         new_population = self.selection(new_population)
         new_population = self.crossover(new_population)
         new_population = self.mutate(new_population)
         return new_population
 
-    def execute_ga(self) -> (list[int], (list[list[int]], list[list[int]])):
+    def execute_ga(self) -> (list[int], float):
+        pyplot.xlabel('Generazione')
+        pyplot.ylabel('Fitness')
+
         start_time = time.time()
+        avg_fitnesses = [0]
+        best_fitnesses = [0]
 
         self.__population = self.init_population()
+        self.__last_best_generation = self.__generation
 
-        while time.time() - start_time < 1.99:
-            total_fitness = 0
+        while time.time() - start_time < 1.9:
+            avgs = 0
+            fitnesses = []
+            best_individual_fitness = 0
             for individual in self.__population:
-                fitness = self.fitness_function(individual)
-                if fitness > self.__best_individual[0]:
-                    self.__best_individual = fitness, individual.copy()
+                fitness = self.fitness_function(tuple(individual))
+                if fitness > best_individual_fitness:
+                    best_individual_fitness = fitness
+                if fitness > self.__best_individual[1]:
+                    self.__best_individual = (individual.copy(), fitness, self.__generation, time.time() - start_time)
                     print(f"Nuovo individuo migliore {individual} -> Fitness: {fitness}")
-                total_fitness += fitness
-            print(f"Generazione {self.__generation} -> Fitness totale: {total_fitness}")
-            if total_fitness == 0:
+                    print("-> Questa generazione contiene un nuovo individuo migliore, aggiorno la migliore generazione.")
+                    self.__last_best_generation = self.__generation
+                avgs += fitness
+                fitnesses.append(fitness)
+            best_fitnesses.append(best_individual_fitness)
+            avgs /= self.population_size
+            print(f"Generazione {self.__generation} -> Fitness medio: {avgs}")
+            if avgs == 0:
                 print("Generazione di individui non ammissibili, interrompo l'esecuzione.")
                 break
-            if total_fitness > self.__best_population[0]:
+            if avgs > self.__best_population[1]:
                 self.__last_best_generation = self.__generation
-                self.__best_population = total_fitness, self.__population.copy()
-                print("-> Questa generazione è la migliore finora, aggiorno la migliore generazione.")
+                self.__best_population = (self.__population, avgs)
+                print("-> Questa generazione ha il miglior valore di fitness medio finora, aggiorno la migliore generazione.")
+            _, occurrences = Counter(fitnesses).most_common(1)[0]
+            if occurrences == self.population_size:
+                if self.mutation_rate >= 1:
+                    print("Convergenza raggiunta, interrompo l'esecuzione.")
+                    break
+                print("Convergenza raggiunta, raddoppio la probabilità di mutazioni.")
+                self.mutation_rate *= 2
+            elif self.mutation_rate >= 0.5 and occurrences - self.population_size < 2 and self.__generation > 20:
+                print("Generazione troppo eterogenea, dimezzo la probabilità di mutazioni.")
+                self.mutation_rate /= 2
             if self.__generation - self.__last_best_generation > 50:
                 print("Non ci sono stati miglioramenti per almeno 50 generazioni, interrompo l'esecuzione.")
                 break
+            avg_fitnesses.append(avgs)
             self.__population = self.evolve(self.__population)
             self.__generation += 1
 
-        print(f"Soluzione trovata in {time.time() - start_time} secondi.")
-        print(f"Individuo migliore: {self.__best_individual[1]}, con fitness {self.__best_individual[0]}")
+        end_time = time.time() - start_time
+        print(f"Soluzione trovata in {self.__best_individual[3]} secondi, esecuzione terminata dopo {end_time} secondi.")
+        print(f"Individuo migliore: {self.__best_individual[0]}, con fitness {self.__best_individual[1]}")
 
-        return self.__best_individual, (self.__best_population, self.__population)
+        pyplot.plot(avg_fitnesses, label="Media")
+        pyplot.plot(best_fitnesses, label="Miglior individuo")
+        pyplot.plot(self.__best_individual[2], self.__best_individual[1], 'g.', label="Soluzione")
+        pyplot.legend()
+        pyplot.show()
+
+
+        return self.__best_individual, end_time

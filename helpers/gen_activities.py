@@ -47,7 +47,7 @@ for point in points:
 # Salva il dataset in un file CSV
 with open("../datasets/attivita.csv", "w", newline="") as csvfile:
     writer = csv.writer(csvfile)
-    writer.writerow(["ID", "Latitudine", "Longitudine", "Alloggio", "Tipologia", "Prezzo", "Cibo", "Animali ammessi",
+    writer.writerow(["ID", "Latitudine", "Longitudine", "Alloggio", "Tipologia", "Prezzo", "Cibo", "Animali domestici",
                      "Stagione rilevante", "Souvenir locali", "Località"])
     writer.writerows(dataset)
 

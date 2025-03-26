@@ -103,31 +103,28 @@ while len(random_activities) == 0:
     random_accomodation = dataset_accomodations.sample(n=1).to_dict('records')[0]
     lat = random_accomodation['lat']
     lon = random_accomodation['lon']
-    # Prima scrematura: selezioniamo una struttura ricettiva con almeno 5 attività in un raggio tra ~ 10 km e ~ 20 km
+    # Prima scrematura: selezioniamo una struttura ricettiva con almeno 30 attività in un raggio tra ~ 10 km e ~ 20 km
     activities = (dataset_activities
                   .query(f'{lat - 0.1} < lat < {lat + 0.1}')
                   .query(f'{lon - 0.1} < lon < {lon + 0.1}')
                   .to_dict('records'))
-    if len(activities) < 5:
+    if len(activities) < 30:
         continue
     for a in activities:
-        distance = geodesic((lat, lon), (a['lat'], a['lon'])).meters
-        if distance > 5000:
-            continue
         if a['is_accomodation']:
             accomodations.append(a)
             continue
         tourist_activities.append(a)
 
-    # Se ci sono meno di 5 attività turistiche in zona, preferiamo un altro gruppo
+    # Se ci sono meno di 10 attività turistiche in zona, preferiamo un altro gruppo
     # Seppur siano sufficienti 2 attività turistiche per una soluzione ammissibile, in tal caso non vi sarebbe necessità
     # di utilizzare l'algoritmo genetico per calcolare il percorso
     # Inoltre, in questo modo ci concentriamo sui casi più interessanti su cui provare l'algoritmo
-    if len(tourist_activities) < 5:
+    if len(tourist_activities) < 10:
         continue
     # Facciamo lo stesso con le strutture ricettive: ne basterebbe una sola, ma in questo modo abbiamo un dataset
     # di partenza più variegato su cui provare l'algoritmo
-    if len(accomodations) < 5:
+    if len(accomodations) < 10:
         continue
     random_activities = activities
 

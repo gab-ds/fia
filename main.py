@@ -37,6 +37,13 @@ async def main(request: Request):
                             activity_dict['lon'], options)
         activities.append(activity)
     genetic = GeneticAlgorithm(activities=activities, preferences=preferences)
-    best_individual, (best_generation, current_generation) = genetic.execute_ga()
-    return {"best_individual": best_individual, "best_generation": best_generation,
-            "current_generation": current_generation}
+    best_individual, duration = genetic.execute_ga()
+    return {
+        "best_individual": {
+            "activities": best_individual[0],
+            "fitness_value": best_individual[1],
+            "generation": best_individual[2],
+            "found_after": best_individual[3],
+        },
+        "duration": duration
+    }
