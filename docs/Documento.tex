@@ -52,6 +52,7 @@ L'applicazione, dunque, mira a:
     \item Velocizzare il contatto con le strutture selezionate.
 \end{itemize}
 
+\pagebreak{}
 
 \subsection{Obiettivi}
 
@@ -288,17 +289,29 @@ Ulteriori stopping condition, poi, sono:
 \section{Conclusione}
 \subsection{Esecuzione}
 
-Per testare l'agente, è stato deciso di simulare richieste API tramite uno script apposito, che replicherà il comportamento del sistema in ambiente reale fornendo dati simili a quelli che l'algoritmo genetico riceverebbe in produzione. In particolare, lo script seleziona casualmente un visitatore dal dataset pre-generato e, a sua volta, sceglie in modo casuale una struttura ricettiva dal dataset delle attività, includendo anche le attività nei dintorni, entro un raggio di circa 20 km. Inoltre, per garantire risultati variegati, vengono considerati soltanto i gruppi di attività composti da almeno 30 elementi, dove ciascun gruppo prevede almeno 10 strutture ricettive e 10 attività turistiche.
+Per testare l'agente, è stato deciso di \textbf{simulare richieste API tramite uno script} apposito, che replicherà il comportamento del sistema in ambiente reale \textbf{fornendo dati simili a quelli che l'algoritmo genetico riceverebbe in produzione}. In particolare, lo script seleziona casualmente un visitatore dal dataset pre-generato e, a sua volta, sceglie in modo casuale una struttura ricettiva dal dataset delle attività, includendo anche le attività nei dintorni, entro un raggio di circa 20 km. Inoltre, per garantire risultati variegati, \textbf{vengono considerati soltanto i gruppi di attività composti da almeno 30 elementi}, dove ciascun gruppo prevede almeno 10 strutture ricettive e 10 attività turistiche.
+
+\subsubsection{Parametri iniziali}
+
+\textit{Dimensione della popolazione}: $10$. \\
+\textit{Peso delle corrispondenze tra preferenze e attività}: $200$. \\
+\textit{Peso della distanza}: $1$. \\
+\textit{Peso della presenza}: $1000$. \\
+\textit{Dimensione dell'élite}: $2$. \\
+\textit{Probabilità di crossover}: $50\%$. \\
+\textit{Probabilità di mutazione}: $10\%$, con possibilità di \textbf{raddoppio in caso di convergenza prematura}, e \textbf{dimezzamento in caso di individui troppo vari}.
+
+\pagebreak{}
 
 \subsection{Risultati}
 
-Analizzando i risultati ottenuti, si può notare che la durata media dell'algoritmo è di circa 1.25 secondi, e che la soluzione migliore viene spesso trovata entro le prime 50 generazioni: oltre tale limite si troveranno solo miglioramenti marginali. 
+Analizzando i risultati ottenuti, si può notare che \textbf{la durata media di esecuzione è di circa 1.25 secondi}, e che \textbf{la soluzione migliore viene spesso trovata entro le prime 50 generazioni}: oltre tale limite si troveranno, in genere, solo miglioramenti marginali.
 
-La buona performance è attribuibile a due fattori principali: un efficace metodo di generazione della popolazione iniziale, combinato con la natura del dataset, composto da punti molto dispersi tra loro, in quanto generati casualmente e non secondo criteri di densità urbana.
+La buona performance è attribuibile a due fattori principali: un \textbf{efficace metodo di generazione della popolazione iniziale}, combinato con la \textbf{natura del dataset, composto da punti molto dispersi tra loro}, in quanto generati casualmente e non secondo criteri di densità urbana.
 
-Non meno importante, poi, è l'ottimizzazione adottata per il calcolo del valore di fitness: attraverso la \textbf{memoizzazione}, a parità di tempi di esecuzione, l'algoritmo genetico riesce a esplorare uno spazio degli stati più ampio, poiché la computazione viene effettuata solo la prima volta per ogni individuo.
+Non meno importante, poi, è l'\textbf{ottimizzazione adottata per il calcolo del valore di fitness}: attraverso la \textbf{memoizzazione}, a parità di tempi di esecuzione, l'algoritmo genetico \textbf{riesce a esplorare uno spazio degli stati più ampio}, poiché la computazione viene effettuata solo la prima volta per ogni individuo.
 
-Infine, la popolazione tende a convergere molto rapidamente, il che ha suggerito l'implementazione di un meccanismo di mutazione adattivo, al fine di diversificare la popolazione molto rapidamente: in caso di fallimento, ciò indica l'assenza di altre soluzioni ammissibili, consentendo di terminare l'esecuzione anche entro le prime 20 generazioni. \\
+Infine, \textbf{la popolazione tende a convergere molto rapidamente}, il che ha suggerito l'implementazione di un \textbf{meccanismo di mutazione adattivo}, al fine di diversificare la popolazione molto rapidamente: \textbf{in caso di fallimento, ciò indica l'assenza di altre soluzioni migliori}, consentendo di terminare l'esecuzione anche entro le prime 20 generazioni. \\
 
 Un'analisi dei tempi di esecuzione è riportata qui sotto. 
 
@@ -338,9 +351,9 @@ Di seguito, alcuni risultati presi a campione.
 
 \subsection{Considerazioni finali}
 
-L'algoritmo è decisamente migliorabile sotto diversi aspetti: in particolare, la presenza di dati veritieri consentirebbe lo studio più approfondito di eventuali problematiche non riscontrate con un dataset artificiale.
+Seppur fornisca un'ottima approssimazione, l'algoritmo è decisamente migliorabile sotto diversi aspetti: in particolare, \textbf{la presenza di dati veritieri consentirebbe lo studio più approfondito} di eventuali problematiche non riscontrate con un dataset artificiale.
 
-Infine, si potrebbe considerare l'utilizzo di strutture dati create su misura, da sostituire ai K-D Tree, per una più rapida e accurata individuazione delle strutture adiacenti.
+Infine, si potrebbe \textbf{considerare l'utilizzo di strutture dati create su misura, da sostituire ai K-D Tree}, per una più rapida e accurata individuazione delle strutture adiacenti.
 
 \pagebreak{}
 \section{Glossario}
