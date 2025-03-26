@@ -180,7 +180,7 @@ Le librerie utilizzate, invece, sono molteplici; di seguito, quelle utilizzate d
 \begin{itemize}
 	\item \textbf{FastAPI}, per la realizzazione di un'API HTTP attraverso cui interagire con il sistema;
 	\item \textbf{GeoPy}, per il corretto calcolo delle distanze geografiche;
-	\item \textbf{SciPy}, per poter raggruppare i punti in un KD-Tree;
+	\item \textbf{SciPy}, per poter raggruppare i punti in un K-D Tree;
 	\item \textbf{NumPy}, per velocizzare i calcoli, piuttosto che utilizzare le funzioni built-in di Python.
 \end{itemize}
 
@@ -189,7 +189,8 @@ Ulteriori librerie utilizzate, che non fanno direttamente parte dell'agente, son
 \begin{itemize}
 	\item \textbf{PyCristoforo}, utilizzato per la corretta generazione di coordinate casuali in Italia, da utilizzare nel set di dati delle attività;
 	\item \textbf{Requests}, utilizzato per lo script di mock del sistema che dovrà interagire con l'endpoint HTTP esposto dall'agente;
-	\item \textbf{Pandas}, utilizzato per lo script di mock del sistema per caricare i dati dai rispettivi dataset di attività e visitatori.
+	\item \textbf{Pandas}, utilizzato per lo script di mock del sistema per caricare i dati dai rispettivi dataset di attività e visitatori;
+	\item \textbf{Matplotlib}, utilizzato per la generazione dei grafici.
 \end{itemize}
 
 \pagebreak{}
@@ -199,30 +200,57 @@ Ulteriori librerie utilizzate, che non fanno direttamente parte dell'agente, son
 
 La nostra decisione è stata quella di determinare ogni individuo come un array a taglia fissa, di dimensione 5, contenente gli ID numerici delle attività, in cui l'ultimo elemento è sempre una struttura ricettiva. Per rappresentare eventuali percorsi con un numero di attività turistiche inferiori a 4, si è inoltre deciso di utilizzare un valore sentinella al posto dell'ID, con valore 0.
 
+\subsubsection{Funzione di fitness}
+
+La funzione di fitness \textit{f(x)} è così definita:
+
+$$f(x) = w_{distanza} * \sum_{i=1}^{n-1} f_{distanza}(x_i, x_{i+1}) + w_{attivita} * \sum_{i=1}^{n} f_{attivita}(x_i) + w_{presente} * \sum_{i=1}^m presente(x_i)$$
+
+I suoi componenti sono:
+\begin{itemize}
+    \item $w_{distanza}$: il peso della distanza nel fitness totale dell'individuo;
+    \item $f_{distanza}$: il valore di fitness dipendente dalla distanza tra due punti, calcolato sottraendo a 5000 la distanza in metri ($5000 - distanza(x, y)$) e troncando il risultato ad un intero. Restituisce valore 0 se troppo distanti tra loro;
+    \item $n$: è il numero di elementi (nel nostro caso, 5) che compongono ogni individuo;
+    \item $w_{attivita}$: il peso della corrispondenza delle preferenze nel fitness totale;
+    \item $f_{attivita}$: il valore di fitness dipendente dalla corrispondenza tra le preferenze utente e l'attività, dando un valore di reward di 2 per ogni corrispondenza perfetta (o nessuna preferenza espressa). Casi particolari sono la preferenza di stagione (nel caso in cui la struttura non abbia una stagione rilevante, ma l'utente abbia espresso una preferenza, la reward è dimezzata ad 1) e il budget (nel caso in cui non ci sia una corrispondenza perfetta, la reward sarà compresa tra -4 e +4, in base alla differenza tra budget preferito e prezzo effettivo). Restituisce la somma di tutte le reward;
+    \item $w_{presente}$: il peso della presenza delle prime $m$ attività nel percorso;
+    \item $presente(x_i)$: restituisce 1 se l'attività non è vuota, 0 altrimenti;
+    \item $m$: è il numero degli elementi presi in considerazione per la reward di presenza (nel nostro caso, 2).
+\end{itemize}
+~\\
+La reward di presenza è stata aggiunta in seguito, in modo da \textbf{valorizzare percorsi contenenti più attività}: senza di essa, l'algoritmo tenderebbe a privilegiare soluzioni di lunghezza minore, a scapito della completezza del percorso, portando a itinerari con al più 3 attività.\\
+La funzione di fitness \textbf{restituisce valore 0 nel caso in cui i vincoli non siano rispettati} (attività troppo distanti o ripetute, permutazioni non accettabili).
+
+\pagebreak{}
+
 \subsubsection{Inizializzazione}
 
 Per generare una popolazione iniziale con soluzioni accettabili, si è pensato di utilizzare il seguente algoritmo:
 
 \texttt{1. Separa l'array delle attività in un array di sole strutture ricettive e un array di sole attività turistiche. \\
 2. Costruisci due K-D Tree, uno contenente le coordinate delle sole attività turistiche, l'altro delle sole strutture ricettive. \\
-3. Prendi casualmente una struttura ricettiva. \\
-4. Estrai dal K-D Tree delle attività turistiche al massimo 20 attività più vicine alla struttura ricettiva. \\
-5. Scarta le attività turistiche che distano più di 5 km dalla struttura ricettiva, lasciando soltanto quelle ammissibili per l'individuo. \\
-6a. Se il numero di attività turistiche ammissibili è inferiore a 2, scarta la struttura ricettiva e torna al punto 3. \\
-6b. Altrimenti, mescola casualmente l'array delle attività turistiche ammissibili, selezionandone al più 4 da inserire nell'individuo (ricordiamo che, in questo caso, avremo sicuramente almeno 2 attività turistiche nell'array). \\
-7. Crea un individuo, inserendo come ultimo elemento la struttura ricettiva scelta, e inserendo a ritroso le attività selezionate (in questo modo, le posizioni vuote saranno sempre le prime due, il che è ammissibile) \\
-8. Ritorna al passo 3 finché il numero di individui è minore di n. 
+3. Poni la distanza totale del percorso a 0. \\
+4. Prendi casualmente una struttura ricettiva. \\
+5. Estrai dal K-D Tree delle attività turistiche al massimo 5 attività più vicine all'attività di riferimento. \\
+6. Scarta le attività turistiche che distano più di 5 km dall'attività di riferimento, escludendo anche le attività già presenti nell'individuo, lasciando soltanto quelle ammissibili. \\
+7a. Se il numero di attività turistiche ammissibili è inferiore a 2, scarta la struttura ricettiva e torna al punto 3. \\
+7b. Altrimenti, seleziona la prima attività più vicina, aggiungendo alla distanza totale la distanza tra le due attività. \\
+8a. Se la distanza totale supera i 5 km, e le attività presenti finora nell'individuo sono almeno 3, aggiungi l'individuo alla popolazione e vai al punto 10. \\
+8b. Altrimenti, se il loro numero non supera i 2 elementi, scarta la struttura ricettiva e torna al punto 3. \\
+9. Ritorna al punto 4, utilizzando però l'ultima attività aggiunta come riferimento, finché non abbiamo al più 5 elementi nell'individuo. Se l'individuo ha esattamente 5 elementi, allora aggiungilo alla popolazione.
+10. Ritorna al punto 3 finché il numero di individui è minore di n. 
 }
 
 Nell'algoritmo sopra specificato, si consideri $n$ la dimensione della popolazione.
 
-\pagebreak{}
 \subsubsection{Selezione}
 
 L'algoritmo di selezione considerato è il Roulette Wheel con Elitismo. Esso consiste nel preservare $k$ individui promettenti e avviare una selezione casuale con probabilità per i restanti $n-k$ individui.
 
 In questo modo, garantiamo che ogni generazione non sia peggiore della precedente, esponendoci, però, maggiormente al rischio di convergenza prematura: una mitigazione messa in atto è quella di ridurre il valore di fitness dei due elementi dell'élite del 20\%, per garantire una possibilità maggiore anche per gli altri individui durante le prossime selezioni. Di seguito, la descrizione del procedimento.
-\\\\~
+
+\pagebreak{}
+
 \texttt{1. Calcola il valore di fitness di ogni individuo della popolazione. \\
 2. Seleziona i primi $k$ individui con valore di fitness maggiore e copiali nella nuova generazione. \\
 3. Riduci il valore di fitness calcolato dei due individui scelti del 20\%. \\
@@ -235,41 +263,84 @@ In questo modo, garantiamo che ogni generazione non sia peggiore della precedent
 
 La strategia adottata è il Single Point Crossover, dividendo l'array al terzo elemento: in questo modo, avremo che i primi 2 elementi proverranno dal primo genitore, mentre i restanti 3 dal secondo. Per evitare individui non ammissibili, calcoliamo il fitness dei due figli ottenuti: se questo valore, per almeno uno dei due, è pari a zero, allora il crossover non si effettua.
 
-
 \subsubsection{Mutazione}
 
-L'approccio utilizzato per la mutazione è il Random Resetting, che consiste nella selezione di un gene in modo casuale e la sua conseguente sostituzione con un altro gene, a patto che questo dia vita a un individuo ammissibile.
+L'approccio utilizzato per la mutazione è ibrido, in quanto si è deciso di utilizzare sia il Random Resetting - che consiste nella selezione di un gene in modo casuale e la sua conseguente sostituzione con un altro gene, a patto che questo dia vita a un individuo ammissibile - sia lo Scrambling - che prende un sottoinsieme di geni dell'individuo e li riordina casualmente.
 
-\pagebreak{}
-\subsubsection{Funzione di fitness}
+Il Random Resetting viene effettuato senza restrizioni su qualsiasi attività, a patto che l'attività successiva a quest'ultima non sia pari a 0 (evitando individui con percorsi non ammissibili, es. $[1, 0, 2, 3, 4]$).
 
-La funzione di fitness \textit{f(x)} è così definita: \\
+Lo Scrambling, invece, seleziona un subset di sole attività turistiche (evitando di spostare la struttura ricettiva), escludendo le attività nulle. \\
 
-$$f(x) = w_{distanza} * f_{distanza}(x_4, punto\_medio(x)) + w_{attivita} * \sum_{i=1}^{m} f_{attivita}(x_i)$$
-
-I suoi componenti sono:
-\begin{itemize}
-    \item $w_{distanza}$: il peso della distanza nel fitness totale dell'individuo;
-    \item $f_{distanza}$: il valore di fitness dipendente dalla distanza tra due punti, calcolato sottraendo a 5000 la distanza in metri ($5000 - distanza(x, y)$) e troncando il risultato ad un intero. Restituisce valore 0 se troppo distanti tra loro;
-    \item $punto\_medio(x)$: il valore medio delle coordinate per le attività contenute nell'individuo $x$. Seppur impreciso, per punti così vicini l'approssimazione può considerarsi trascurabile;
-    \item $w_{attivita}$: il peso della corrispondenza delle preferenze nel fitness totale;
-    \item $f_{attivita}$: il valore di fitness dipendente dalla corrispondenza tra le preferenze utente e l'attività, dando un valore di reward di 2 per ogni corrispondenza perfetta (o nessuna preferenza espressa). Casi particolari sono la preferenza di stagione (nel caso in cui la struttura non abbia una stagione rilevante, ma l'utente abbia espresso una preferenza, la reward è dimezzata ad 1) e il budget (nel caso in cui non ci sia una corrispondenza perfetta, la reward sarà compresa tra -4 e +4, in base alla differenza tra budget preferito e prezzo effettivo). Restituisce la somma di tutte le reward;
-    \item $m$: è il numero di elementi (nel nostro caso, 5) che compongono ogni individuo.
-\end{itemize}
-~\\
-La funzione di fitness \textbf{restituisce valore 0 nel caso in cui i vincoli non siano rispettati} (attività troppo distanti o ripetute, permutazioni non accettabili).
-
+Infine, si è scelto di effettuare le mutazioni sugli individui adottando un approccio adattivo: al raggiungimento della convergenza, la probabilità di mutazione raddoppia ad ogni generazione, fino ad un massimo di 1.
 
 \subsubsection{Stopping condition}
 
-La condizione di arresto, nel nostro caso, corrisponde al limite massimo di tempo pari a \textbf{2 secondi}.
-Inoltre, si è scelta come ulteriore condizione di arresto \textbf{la mancanza di miglioramenti per almeno 20 generazioni}.
+La principale condizione di arresto, nel nostro caso, corrisponde al limite massimo di tempo pari a \textbf{2 secondi}.
+Ulteriori stopping condition, poi, sono:
+\begin{itemize}
+	\item \textbf{la mancanza di miglioramenti per 50 generazioni};
+	\item \textbf{la presenza di una popolazione composta da individui non ammissibili};
+	\item \textbf{il raggiungimento della convergenza}.
+\end{itemize}
 
 \pagebreak{}
 
 \section{Conclusione}
+\subsection{Esecuzione}
+
+Per testare l'agente, è stato deciso di simulare richieste API tramite uno script apposito, che replicherà il comportamento del sistema in ambiente reale fornendo dati simili a quelli che l'algoritmo genetico riceverebbe in produzione. In particolare, lo script seleziona casualmente un visitatore dal dataset pre-generato e, a sua volta, sceglie in modo casuale una struttura ricettiva dal dataset delle attività, includendo anche le attività nei dintorni, entro un raggio di circa 20 km. Inoltre, per garantire risultati variegati, vengono considerati soltanto i gruppi di attività composti da almeno 30 elementi, dove ciascun gruppo prevede almeno 10 strutture ricettive e 10 attività turistiche.
+
 \subsection{Risultati}
+
+Analizzando i risultati ottenuti, si può notare che la durata media dell'algoritmo è di circa 1.25 secondi, e che la soluzione migliore viene spesso trovata entro le prime 50 generazioni: oltre tale limite si troveranno solo miglioramenti marginali. 
+
+La buona performance è attribuibile a due fattori principali: un efficace metodo di generazione della popolazione iniziale, combinato con la natura del dataset, composto da punti molto dispersi tra loro, in quanto generati casualmente e non secondo criteri di densità urbana.
+
+Non meno importante, poi, è l'ottimizzazione adottata per il calcolo del valore di fitness: attraverso la \textbf{memoizzazione}, a parità di tempi di esecuzione, l'algoritmo genetico riesce a esplorare uno spazio degli stati più ampio, poiché la computazione viene effettuata solo la prima volta per ogni individuo.
+
+Infine, la popolazione tende a convergere molto rapidamente, il che ha suggerito l'implementazione di un meccanismo di mutazione adattivo, al fine di diversificare la popolazione molto rapidamente: in caso di fallimento, ciò indica l'assenza di altre soluzioni ammissibili, consentendo di terminare l'esecuzione anche entro le prime 20 generazioni. \\
+
+Un'analisi dei tempi di esecuzione è riportata qui sotto. 
+
+\begin{center}
+	\includegraphics[scale=0.25]{results/esecuzioni}
+\end{center}
+
+Di seguito, alcuni risultati presi a campione.
+
+\pagebreak{}
+
+\begin{center}
+	\includegraphics[scale=0.25]{results/0}
+	\includegraphics[scale=0.25]{results/1}
+	\includegraphics[scale=0.25]{results/2}
+	\includegraphics[scale=0.25]{results/3}
+	\includegraphics[scale=0.25]{results/4}
+	\includegraphics[scale=0.25]{results/5}
+	\includegraphics[scale=0.25]{results/6}
+	\includegraphics[scale=0.25]{results/7}
+	\includegraphics[scale=0.25]{results/8}
+	\includegraphics[scale=0.25]{results/9}
+	\includegraphics[scale=0.25]{results/10}
+	\includegraphics[scale=0.25]{results/11}
+	\includegraphics[scale=0.25]{results/12}
+	\includegraphics[scale=0.25]{results/13}
+	\includegraphics[scale=0.25]{results/14}
+	\includegraphics[scale=0.25]{results/15}
+	\includegraphics[scale=0.25]{results/16}
+	\includegraphics[scale=0.25]{results/17}
+	\includegraphics[scale=0.25]{results/18}
+	\includegraphics[scale=0.25]{results/19}
+	
+\end{center}
+
+\pagebreak{}
+
 \subsection{Considerazioni finali}
+
+L'algoritmo è decisamente migliorabile sotto diversi aspetti: in particolare, la presenza di dati veritieri consentirebbe lo studio più approfondito di eventuali problematiche non riscontrate con un dataset artificiale.
+
+Infine, si potrebbe considerare l'utilizzo di strutture dati create su misura, da sostituire ai K-D Tree, per una più rapida e accurata individuazione delle strutture adiacenti.
 
 \pagebreak{}
 \section{Glossario}
@@ -281,6 +352,7 @@ Inoltre, si è scelta come ulteriore condizione di arresto \textbf{la mancanza d
    \item \textbf{Large Language Model}: modello di deep learning, addestrato su grandi quantitativi di dati testuali, con l'obiettivo di apprendere e generare linguaggio naturale.
    \item \textbf{K-D Tree}: struttura dati gerarchica per organizzare punti in uno spazio k-dimensionale euclideo. A ogni livello dell'albero, lo spazio viene suddiviso alternando sistematicamente le $k$ dimensioni. Questi alberi sono utilizzati per l'organizzazione e la ricerca di dati multidimensionali. Sebbene le coordinate geografiche non rappresentino uno spazio euclideo, per distanze relativamente brevi sulla superficie terrestre gli effetti della curvatura possono essere trascurati, approssimando sufficientemente bene le distanze calcolate con le coordinate geografiche a quelle di uno spazio euclideo bidimensionale.
    \item \textbf{Funzione di fitness}: funzione di valutazione dei dati o di adattamento della soluzione candidata al problema in via di risoluzione. Essa assegna un punteggio ad ogni individuo della popolazione scelta, in base al livello di soddisfazione dell'obiettivo. Infatti, più alto è il punteggio di fitness di una soluzione, maggiore è la probabilità che essa venga selezionata e utilizzata per generare nuove soluzioni che si avvicineranno sempre di più alla soluzione ottimale.
+   \item \textbf{Memoizzazione}: tecnica che consiste nel salvataggio in memoria dei valori restituiti da una funzione, in maniera tale da ricavarli facilmente per riutilizzi successivi, evitando di ricalcolare i risultati. 
 \end{itemize}
 
 \end{document}
